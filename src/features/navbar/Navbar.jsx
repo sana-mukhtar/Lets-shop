@@ -1,6 +1,6 @@
 import { Fragment } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline"
+import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from "@heroicons/react/24/outline"
 
 const user = {
   name: "Tom Cook",
@@ -9,11 +9,9 @@ const user = {
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 }
 const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
+  { name: "Today's Deal", href: "#", current: true },
+  { name: "Popular Products", href: "#", current: false },
+  { name: "Best Sellers", href: "#", current: false },
 ]
 const userNavigation = [
   { name: "Your Profile", href: "#" },
@@ -28,7 +26,6 @@ function classNames(...classes) {
 export default function Navbar({children}) {
   return (
     <>
-     
       <div className="min-h-full">
         <Disclosure as="nav" className="bg-gray-800">
           {({ open }) => (
@@ -71,8 +68,15 @@ export default function Navbar({children}) {
                       >
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">View notifications</span>
-                        <BellIcon className="h-6 w-6" aria-hidden="true" />
+                        <ShoppingCartIcon
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
                       </button>
+                      {/* notification */}
+                      <span class="inline-flex items-center rounded-lg bg-red-100 px-2 py-1 mb-7 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                        3
+                      </span>
 
                       {/* Profile dropdown */}
                       <Menu as="div" className="relative ml-3">
@@ -180,8 +184,15 @@ export default function Navbar({children}) {
                     >
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">View notifications</span>
-                      <BellIcon className="h-6 w-6" aria-hidden="true" />
+                      <ShoppingCartIcon
+                        className="h-6 w-6"
+                        aria-hidden="true"
+                      />
                     </button>
+                    {/* notification */}
+                    <span class="inline-flex items-center rounded-lg bg-red-100 px-2 py-1 mb-5 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+                      3
+                    </span>
                   </div>
                   <div className="mt-3 space-y-1 px-2">
                     {userNavigation.map(item => (
@@ -204,7 +215,7 @@ export default function Navbar({children}) {
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              Dashboard
+              E-Commerce
             </h1>
           </div>
         </header>

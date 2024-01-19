@@ -1,11 +1,14 @@
 import Navbar from "./features/navbar/Navbar";
+import Home from "./features/pages/Home";
+import LoginPage from "./features/pages/LoginPage";
+import SignUpPage from "./features/pages/SignUpPage";
 import ProductList from "./features/product-list/ProductList";
 
 
 export default function App() {
   return <>
-  <Navbar />
-  <h1 className="text-3xl font-bold underline text-red-700">Hello world!</h1>
-  <ProductList />
+  {/* <Home /> */}
+  {/* <LoginPage></LoginPage> */}
+  <SignUpPage></SignUpPage>
   </>
 }
