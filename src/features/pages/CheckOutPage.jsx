@@ -34,8 +34,8 @@ const products = [
 export default function CheckOutPage() {
   const [open, setOpen] = useState(true)
   return (
-    <div className="grid lg:grid-cols-5 gap-2  sm:grid-rows-2">
-      <div className="lg:col-span-3 bg-white lg:my-8 lg:ml-32 px-5 py-2 sm:row-span-1">
+    <div className="grid lg:grid-cols-5 gap-2  grid-rows-2 h-lvh">
+      <div className="lg:col-span-3 bg-white lg:my-8 lg:ml-32 px-5 py-2 row-span-1 h-fit sm:top-0">
         <form className="">
           <div className="space-y-1 ">
             <div className="border-b border-gray-900/10 ">
@@ -269,9 +269,7 @@ export default function CheckOutPage() {
         </form>
       </div>
 
-      <div
-        className="lg:col-span-2 bg-white lg:mr-28 lg:h-[75vh] lg:mt-8 sm:row-span-1 "
-      >
+      <div className="lg:col-span-2 bg-white lg:mr-28 lg:h-[75vh]  md:mr-0 lg:mt-8 row-span-1 sm:block">
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6 ">
           <h2 className="text-2xl font-semibold pt-2 pb-3">My Cart</h2>
           <div className="flow-root">
@@ -336,7 +334,7 @@ export default function CheckOutPage() {
           </p>
           <div className="mt-6">
             <Link
-              to="/checkout"
+              to="/payment"
               className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
             >
               Pay and Order
