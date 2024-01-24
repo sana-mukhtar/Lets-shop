@@ -25,7 +25,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
 }
 
-export default const ProductList = () => {
+export default  ProductList = () => {
  const dispatch = useDispatch();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const products = useSelector(state => state.product.products)
