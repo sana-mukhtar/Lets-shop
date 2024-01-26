@@ -1,0 +1,1 @@
+packages installed manually - react-hot-toast  react-icons sass firebase react-router-dom react-table  @types/react-table
