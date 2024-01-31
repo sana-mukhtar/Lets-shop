@@ -1,3 +1,4 @@
+import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom"
 type cartItemProps={
     cartItem : any;
@@ -8,14 +9,21 @@ type cartItemProps={
 // const total =
 }
 const CartItem = ({cartItem} : cartItemProps) => {
-    const {photo , productId , name , price , quantity , stock } = cartItem
+    const {photo , productId , name , price , quantity } = cartItem
   return (
     <div>
       <img src={photo} alt={name} />
       <article>
         <Link to={`/product/${productId}`}>{name}</Link>
+        <span>₹ {price}</span>
       </article>
-      <span>₹ {price}</span>
+
+      <div>
+        <button>-</button>
+        <p>{quantity}</p>
+        <button>+</button>
+      </div>
+      <button> <FaTrash /></button>
     </div>
   );
 }

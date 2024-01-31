@@ -42,7 +42,7 @@ const Cart = () => {
 
   return (
     <div className="flex flex-row justify-center items-end ">
-      <main className="w-[50%] bg-black text-white p-10 h-full">
+      <main className="w-[50%] p-10 h-full">
         {cartItems.map((i , idx )=>(<CartItem key={idx} cartItem={i} />))}
        
       </main>
