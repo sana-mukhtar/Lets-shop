@@ -9,7 +9,7 @@ type cartItemProps={
 // const total =
 }
 const CartItem = ({cartItem} : cartItemProps) => {
-    const {photo , productId , name , price , quantity } = cartItem
+    const {photo , productId , name , price , Quantity } = cartItem
   return (
     <div>
       <img src={photo} alt={name} />
@@ -20,7 +20,7 @@ const CartItem = ({cartItem} : cartItemProps) => {
 
       <div>
         <button>-</button>
-        <p>{quantity}</p>
+        <p>{Quantity}</p>
         <button>+</button>
       </div>
       <button> <FaTrash /></button>

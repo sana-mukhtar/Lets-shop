@@ -41,32 +41,32 @@ const Cart = () => {
 
 
   return (
-    <div className="flex flex-row justify-center items-end ">
-      <main className="w-[50%] p-10 h-full">
+    <div className="flex flex-row justify-between items-center gap-16 px-16 py-8 bg-white h-[calc(100vh-4rem)] ">
+      <main className="w-[70%] p-10 h-full">
         {cartItems.map((i , idx )=>(<CartItem key={idx} cartItem={i} />))}
        
       </main>
-      <aside className="w-[50%] text-lg bg-white font-semibold p-5 h-full">
+      <aside className="w-[30%] text-base leading-8  font-normal p-14 flex-col items-center justify-stretch gap-6">
         <p>Subtotal : ₹ {subtotal}</p>
         <p>Tax : ₹ {tax}</p>
         <p>Shipping Charges : ₹ {shippingCharges}</p>
         <p>
-          Discount : <em className=" text-gray-500">-₹{discount}</em>{" "}
+          Discount : <em className=" text-red-700">-₹{discount}</em>{" "}
         </p>
         <p>
-          Total :<span className="text-green-700"> ₹ {total}</span>
+          Total :<span className="text-green-600 font-bold"> ₹ {total}</span>
         </p>
         <input
           type="text"
           placeholder="Coupon Code"
           value={couponCode}
           onChange={(e) => setCouponCode(e.target.value)}
-          className="rounded bg-gray-200"
+          className="rounded bg-gray-200 font-light p-2  w-64 border-transparent"
         />
 
         {couponCode &&
           (isValidCouponCode ? (
-            <span className="text-green-700">
+            <span className="text-green-600">
               ₹{discount} off using the <code>{couponCode}</code>
             </span>
           ) : (
