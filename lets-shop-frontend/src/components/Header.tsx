@@ -13,7 +13,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <nav className="flex justify-end items-stretch gap-14 flex-row h-20 bg-gray-100 p-5">
-      <Link to={"/"} className="font-bold">Home</Link>
+      <Link to={"/"} className="font-bold">HOME</Link>
       <Link to={"/search"}>
         <FaSearch />
       </Link>

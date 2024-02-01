@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import CartItem from "../components/Cart-item";
+import { Link } from "react-router-dom";
+
 
 const cartItems = [
   {
@@ -41,12 +43,15 @@ const Cart = () => {
 
 
   return (
-    <div className="flex flex-row justify-between items-center gap-16 px-16 py-8 bg-white h-[calc(100vh-4rem)] ">
-      <main className="w-[70%] p-10 h-full">
-        {cartItems.map((i , idx )=>(<CartItem key={idx} cartItem={i} />))}
-       
+    <div className="flex flex-row justify-between items-stretch bg-gray-50 gap-4 h-[calc(100vh-4rem)] ">
+      <main className="w-[70%] h-full ">
+        {cartItems.length > 0 ? (
+          cartItems.map((i, idx) => <CartItem key={idx} cartItem={i} />)
+        ) : (
+          <h1>No Items Added</h1>
+        )}
       </main>
-      <aside className="w-[30%] text-base leading-8  font-normal p-14 flex-col items-center justify-stretch gap-6">
+      <aside className="w-[30%] text-base leading-8 pl-40 py-8 font-normal flex-col items-center justify-stretch gap-6">
         <p>Subtotal : ₹ {subtotal}</p>
         <p>Tax : ₹ {tax}</p>
         <p>Shipping Charges : ₹ {shippingCharges}</p>
@@ -61,19 +66,31 @@ const Cart = () => {
           placeholder="Coupon Code"
           value={couponCode}
           onChange={(e) => setCouponCode(e.target.value)}
-          className="rounded bg-gray-200 font-light p-2  w-64 border-transparent"
+          className="rounded bg-gray-200 font-light p-1 w-64 mt-3 "
         />
+        <div className="mt-1">
+          {couponCode &&
+            (isValidCouponCode ? (
+              <span className="text-green-600 ">
+                ₹{discount} off using the <code>{couponCode}</code>
+              </span>
+            ) : (
+              <span className="text-red-700 text-base font-normal">
+                Invalid Coupon
+              </span>
+            ))}
 
-        {couponCode &&
-          (isValidCouponCode ? (
-            <span className="text-green-600">
-              ₹{discount} off using the <code>{couponCode}</code>
-            </span>
-          ) : (
-            <span className="text-red-700 text-base pl-1 font-normal">
-              Invalid Coupon
-            </span>
-          ))}
+          <br />
+        </div>
+
+        {cartItems.length > 0 && (
+          <Link
+            to="/shipping"
+            className="bg-blue-900 h-9 w-[5vw] text-white px-24 py-3 rounded-sm hover:opacity-80"
+          >
+            Checkout
+          </Link>
+        )}
       </aside>
     </div>
   );
