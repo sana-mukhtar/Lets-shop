@@ -1,6 +1,7 @@
 import { BrowserRouter as Router , Routes , Route } from "react-router-dom"
 import { Suspense, lazy } from "react";
 import Loader from "./components/Loader";
+import Shipping from "./pages/Shipping";
 const Home = lazy(()=>import("./pages/Home"))
 const Cart = lazy(() => import("./pages/Cart"));
 const Search = lazy(() => import("./pages/Search"));
@@ -36,16 +37,16 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<Search />} />
-
+          <Route path="/shipping" element={<Shipping />} />
           {/* admin routes */}
           <Route
-            // element={
-            //   <ProtectedRoute
-            //     isAuthenticated={true}
-            //     adminRoute={true}
-            //     isAdmin={true}
-            //   />
-            // }
+          // element={
+          //   <ProtectedRoute
+          //     isAuthenticated={true}
+          //     adminRoute={true}
+          //     isAdmin={true}
+          //   />
+          // }
           >
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/product" element={<Products />} />
