@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const user = { _id: "asdf", role: "admin" };
+const user = { _id: "asdf", role: "" };
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
@@ -35,7 +35,7 @@ const Header = () => {
                 )}
                 <Link to={"/orders"}>Orders</Link>
                 <button>
-                  <Link to={"/logout"}>
+                  <Link to={"/login"}>
                     <FaSignOutAlt />
                   </Link>
                 </button>
