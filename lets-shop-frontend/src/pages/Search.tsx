@@ -1,11 +1,15 @@
 import { useState } from "react"
+import ProductCard from "../components/ProductCard";
 
 const Search = () => {
   const [sort , setSort] = useState("")
   const [search, setSearch] = useState("");
   const [maxPrice, setMaxPrice] = useState(1000);
   const [category, setCategory] = useState("");
-  const [page, setPage] = useState("");
+  const [page, setPage] = useState(1);
+    const addToCartHandler = () => {};
+    const isPrev = true;
+    const isNext = true;
   return (
     <div className="search">
       <aside>
@@ -58,7 +62,33 @@ const Search = () => {
           </select>
         </div>
       </aside>
-      <main></main>
+      <main>
+        <h1 className="text-xl font-bold">Products</h1>
+        <input
+          type="text"
+          placeholder="Search by name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <div>
+          <ProductCard
+            photo="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-gold-select-201810?wid=539&hei=312&fmt=jpeg&qlt=95&.v=1664472289059"
+            name="Macbook"
+            stock={10234}
+            price={34567}
+            handler={addToCartHandler}
+            productId="12345"
+          />
+        </div>
+
+        <article>
+          <button disabled={!isPrev} className="border border-black rounded-md p-1 mx-1" onClick={() => setPage((prev) => prev - 1)}>prev</button>
+          <span>
+            {page} of {4}
+          </span>
+          <button disabled={!isNext} className="border border-black  rounded-md p-1 mx-1" onClick={() => setPage((prev) => prev + 1)}>next</button>
+        </article>
+      </main>
     </div>
   );
 }
