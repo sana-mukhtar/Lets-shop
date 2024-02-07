@@ -22,6 +22,41 @@ const Search = () => {
             <option value="dsc">Price (High to Low)</option>
           </select>
         </div>
+
+        <div>
+          <h4 className="text-md font-semibold">
+            Max Price : {maxPrice || ""}
+          </h4>
+          <input
+            name="maxPrice"
+            type="range"
+            min={100}
+            max={100000}
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(Number(e.target.value))}
+          />
+        </div>
+
+        <div>
+          <h4 className="text-md font-semibold">Category</h4>
+          <select
+            name=""
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="">Camera</option>
+            <option value="">Footwears</option>
+
+            <option value="">Game</option>
+            <option value="">House Decor</option>
+
+            <option value="">Laptop</option>
+            <option value="">Outfits</option>
+            <option value="">Skincare</option>
+            <option value="">Traditional wear</option>
+          </select>
+        </div>
       </aside>
       <main></main>
     </div>
