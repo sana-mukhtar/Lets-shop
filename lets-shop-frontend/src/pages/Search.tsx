@@ -11,15 +11,19 @@ const Search = () => {
     const isPrev = true;
     const isNext = true;
   return (
-    <div className="search">
-      <aside>
-        <h2 className="text-lg font-bold">Filters</h2>
-        <div>
-          <h4 className="text-md font-semibold">sort</h4>
+    <div className="search p-8 flex justify-start items-stretch gap-8 min-h-[calc(100vh-5rem)] bg-slate-200">
+      <aside className="min-w-80 p-8 flex flex-col justify-start items-stretch gap-2 border shadow-md bg-white border-1 border-gray-300">
+        <h2 className="text-xl font-md  text-gray-600 tracking-widest">
+          FILTERS
+        </h2>
+        <hr />
+        <div className=" pt-2 ">
+          <h4 className="text-md text-gray-800 font-semibold pb-1">Sort</h4>
           <select
             name=""
             value={sort}
             onChange={(e) => setSort(e.target.value)}
+            className="border border-1 border-gray-300 py-2 px-2 text-sm text-gray-600 rounded-md"
           >
             <option value="none">None</option>
             <option value="asc">Price (Low to High)</option>
@@ -27,8 +31,8 @@ const Search = () => {
           </select>
         </div>
 
-        <div>
-          <h4 className="text-md font-semibold">
+        <div className="pt-2">
+          <h4 className="text-md text-gray-800 font-semibold pb-1">
             Max Price : {maxPrice || ""}
           </h4>
           <input
@@ -38,15 +42,17 @@ const Search = () => {
             max={100000}
             value={maxPrice}
             onChange={(e) => setMaxPrice(Number(e.target.value))}
+            className="w-full bg-gray-700"
           />
         </div>
 
-        <div>
-          <h4 className="text-md font-semibold">Category</h4>
+        <div className="pt-2 ">
+          <h4 className="text-md text-gray-800 font-semibold pb-1">Category</h4>
           <select
             name=""
             value={category}
             onChange={(e) => setCategory(e.target.value)}
+            className="border border-1 border-gray-300 py-2 px-2 text-sm text-gray-600 rounded-md"
           >
             <option value="">All</option>
             <option value="">Camera</option>
@@ -82,11 +88,23 @@ const Search = () => {
         </div>
 
         <article>
-          <button disabled={!isPrev} className="border border-black rounded-md p-1 mx-1" onClick={() => setPage((prev) => prev - 1)}>prev</button>
+          <button
+            disabled={!isPrev}
+            className="border border-black rounded-md p-1 mx-1"
+            onClick={() => setPage((prev) => prev - 1)}
+          >
+            prev
+          </button>
           <span>
             {page} of {4}
           </span>
-          <button disabled={!isNext} className="border border-black  rounded-md p-1 mx-1" onClick={() => setPage((prev) => prev + 1)}>next</button>
+          <button
+            disabled={!isNext}
+            className="border border-black  rounded-md p-1 mx-1"
+            onClick={() => setPage((prev) => prev + 1)}
+          >
+            next
+          </button>
         </article>
       </main>
     </div>
