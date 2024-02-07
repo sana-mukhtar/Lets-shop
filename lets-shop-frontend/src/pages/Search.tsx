@@ -18,7 +18,7 @@ const Search = () => {
         </h2>
         <hr />
         <div className=" pt-2 ">
-          <h4 className="text-md text-gray-800 font-semibold pb-1">Sort</h4>
+          <h4 className="text-md text-gray-700 font-semibold pb-1 ">Sort</h4>
           <select
             name=""
             value={sort}
@@ -32,7 +32,7 @@ const Search = () => {
         </div>
 
         <div className="pt-2">
-          <h4 className="text-md text-gray-800 font-semibold pb-1">
+          <h4 className="text-md text-gray-700 font-semibold pb-1">
             Max Price : {maxPrice || ""}
           </h4>
           <input
@@ -47,7 +47,7 @@ const Search = () => {
         </div>
 
         <div className="pt-2 ">
-          <h4 className="text-md text-gray-800 font-semibold pb-1">Category</h4>
+          <h4 className="text-md text-gray-700 font-semibold pb-1">Category</h4>
           <select
             name=""
             value={category}
@@ -68,13 +68,14 @@ const Search = () => {
           </select>
         </div>
       </aside>
-      <main>
-        <h1 className="text-xl font-bold">Products</h1>
+      <main className="flex flex-col justify-start items-start bg-indigo-200 min-w-[calc(100vw-25rem)] px-12 shadow-md">
+        <h1 className="text-3xl font-semibold tracking-widest py-5">Products</h1>
         <input
           type="text"
           placeholder="Search by name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          className="mb-2 py-1 px-2 rounded-md w-[40%] shadow-md"
         />
         <div>
           <ProductCard
@@ -87,7 +88,7 @@ const Search = () => {
           />
         </div>
 
-        <article>
+        <article className="">
           <button
             disabled={!isPrev}
             className="border border-black rounded-md p-1 mx-1"
