@@ -8,12 +8,14 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const user = { _id: "asdf", role: "" };
+const user = { _id: "asdf", role: "admin" };
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <nav className="flex justify-end items-stretch gap-14 flex-row h-20 bg-[#fafcfa] p-5 ">
-      <Link to={"/"} className="font-bold ">HOME</Link>
+      <Link to={"/"} className="font-bold ">
+        HOME
+      </Link>
       <Link to={"/search"}>
         <FaSearch />
       </Link>
@@ -28,15 +30,28 @@ const Header = () => {
               <FaUser />
             </button>
 
-            <dialog open={isOpen}>
-              <div>
+            <dialog
+              open={isOpen}
+              className="absolute w-28 h-28 border border-1 rounded-md float-end left-[calc(100%-9rem)]"
+            >
+              <div className="flex flex-col justify-center items-center p-3 gap-2">
                 {user?.role === "admin" && (
-                  <Link to={"/admin/dashboard"}>Admin</Link>
+                  <Link
+                    to={"/admin/dashboard"}
+                    className="hover:text-blue-800 hover:underline"
+                  >
+                    Admin
+                  </Link>
                 )}
-                <Link to={"/orders"}>Orders</Link>
-                <button>
+                <Link
+                  to={"/orders"}
+                  className="hover:text-blue-800 hover:underline"
+                >
+                  Orders
+                </Link>
+                <button className="">
                   <Link to={"/login"}>
-                    <FaSignOutAlt />
+                    <FaSignOutAlt className="hover:text-blue-800" />
                   </Link>
                 </button>
               </div>
