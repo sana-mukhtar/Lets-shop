@@ -69,7 +69,9 @@ const Search = () => {
         </div>
       </aside>
       <main className="flex flex-col justify-start items-start bg-indigo-200 min-w-[calc(100vw-25rem)] px-12 shadow-md">
-        <h1 className="text-3xl font-semibold tracking-widest py-5">Products</h1>
+        <h1 className="text-3xl font-semibold tracking-widest py-5">
+          Products
+        </h1>
         <input
           type="text"
           placeholder="Search by name..."
@@ -77,17 +79,28 @@ const Search = () => {
           onChange={(e) => setSearch(e.target.value)}
           className="mb-2 py-1 px-2 rounded-md w-[40%] shadow-md"
         />
-        <div>
-          <ProductCard
-            photo="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-gold-select-201810?wid=539&hei=312&fmt=jpeg&qlt=95&.v=1664472289059"
-            name="Macbook"
-            stock={10234}
-            price={34567}
-            handler={addToCartHandler}
-            productId="12345"
-          />
+        <div className="flex flex-row justify-start items-center gap-4">
+          <div className="">
+            <ProductCard
+              photo="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-gold-select-201810?wid=539&hei=312&fmt=jpeg&qlt=95&.v=1664472289059"
+              name="Macbook"
+              stock={10234}
+              price={34567}
+              handler={addToCartHandler}
+              productId="12345"
+            />
+          </div>
+          <div>
+            <ProductCard
+              photo="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-gold-select-201810?wid=539&hei=312&fmt=jpeg&qlt=95&.v=1664472289059"
+              name="Macbook"
+              stock={10234}
+              price={34567}
+              handler={addToCartHandler}
+              productId="12345"
+            />
+          </div>
         </div>
-
         <article className="">
           <button
             disabled={!isPrev}

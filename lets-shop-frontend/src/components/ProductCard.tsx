@@ -20,7 +20,7 @@ const ProductCard = ({
   productId , stock , handler
 }:productsProps) => {
   return (
-    <div className="bg-white h-80 w-72 p-4 flex flex-col items-center gap-1 justify-start flex-none ">
+    <div className="bg-white h-80 w-72 p-4 flex flex-col items-center gap-1 justify-start flex-none shadow-md mb-4 ">
       <img src={photo} alt={name} className="m-4 object-cover " />
       <p>{name}</p>
       <span className="text-green-700 font-bold text-base">₹{price}</span>

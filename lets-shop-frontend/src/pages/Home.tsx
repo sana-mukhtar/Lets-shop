@@ -4,7 +4,7 @@ import ProductCard from "../components/ProductCard";
 const Home = () => {
    const addToCartHandler = () => {};
   return (
-    <div className="px-[5%] py-8  flex flex-col w-full">
+    <div className="px-[5%] py-8  flex flex-col w-full ">
       <section className="bg-[url('/src/assets/camera.jpg')] bg-no-repeat bg-cover bg-center h-[20rem] w-full"></section>
 
       <h1 className="text-2xl mt-12 mb-5 flex flex-row justify-between items-center">
