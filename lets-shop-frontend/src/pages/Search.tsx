@@ -8,10 +8,10 @@ const Search = () => {
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
     const addToCartHandler = () => {};
-    const isPrev = true;
-    const isNext = true;
+    const isPrev = page>1;
+    const isNext = page<4;
   return (
-    <div className="search p-8 flex justify-start items-stretch gap-8 min-h-[calc(100vh-5rem)] bg-slate-200">
+    <div className="search p-5 flex justify-start items-stretch gap-8 min-h-[calc(100vh-5rem)] bg-slate-200">
       <aside className="min-w-80 p-8 flex flex-col justify-start items-stretch gap-2 border shadow-md bg-white border-1 border-gray-300">
         <h2 className="text-xl font-md  text-gray-600 tracking-widest">
           FILTERS
@@ -68,7 +68,7 @@ const Search = () => {
           </select>
         </div>
       </aside>
-      <main className="flex flex-col justify-start items-start bg-indigo-200  min-w-[calc(100vw-25rem)] px-12 shadow-md">
+      <main className="flex flex-col justify-start items-start bg-[#f4f4f4]  min-w-[calc(100vw-25rem)] px-12 shadow-md">
         <h1 className="text-3xl font-normal tracking-widest py-5 ">PRODUCTS</h1>
         <input
           type="text"
@@ -77,7 +77,7 @@ const Search = () => {
           onChange={(e) => setSearch(e.target.value)}
           className="mb-4 py-2 px-2 rounded-md w-[40%] shadow-md"
         />
-        <div className="flex flex-row justify-start items-start gap-4 flex-wrap">
+        <div className="flex flex-row justify-start items-start gap-4 flex-wrap overflow-y-auto">
           <div className="">
             <ProductCard
               photo="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-gold-select-201810?wid=539&hei=312&fmt=jpeg&qlt=95&.v=1664472289059"
@@ -98,7 +98,7 @@ const Search = () => {
               productId="12345"
             />
           </div>
-          
+
           <div className="">
             <ProductCard
               photo="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/macbook-air-gold-select-201810?wid=539&hei=312&fmt=jpeg&qlt=95&.v=1664472289059"
@@ -110,23 +110,23 @@ const Search = () => {
             />
           </div>
         </div>
-        <article className="">
+        <article className="flex flex-row  justify-center items-center gap-2 lg:mx-96 mt-24 ">
           <button
             disabled={!isPrev}
-            className="border border-black rounded-md p-1 mx-1"
+            className="border border-none shadow-lg rounded-md  py-1 px-3 mx-1 bg-blue-800 text-white font-thin disabled:bg-gray-400 disabled:cursor-not-allowed"
             onClick={() => setPage((prev) => prev - 1)}
           >
-            prev
+            Prev
           </button>
           <span>
             {page} of {4}
           </span>
           <button
             disabled={!isNext}
-            className="border border-black  rounded-md p-1 mx-1"
+            className="border border-none shadow-lg  rounded-md py-1 px-3 mx-1 bg-blue-800 text-white font-thin disabled:bg-gray-400 disabled:cursor-not-allowed"
             onClick={() => setPage((prev) => prev + 1)}
           >
-            next
+            Next
           </button>
         </article>
       </main>
