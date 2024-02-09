@@ -34,7 +34,7 @@ const Shipping = () => {
         </h1>
       </div>
 
-      <form action="">
+      <form action="" className="align-center">
         <div className=" flex flex-col justify-center items-center gap-7 py-4  ">
           <input
 required
@@ -43,7 +43,7 @@ required
             name="firstName"
             value={shippingInfo.firstName}
             onChange={handleClick}
-            className="p-3 w-80"
+            className="p-3 w-80 shadow-md"
           />
           <input
           required
@@ -52,7 +52,7 @@ required
             name="lastName"
             value={shippingInfo.lastName}
             onChange={handleClick}
-            className="p-3 w-80"
+            className="p-3 w-80 shadow-md"
           />
 
           {/* street */}
@@ -64,7 +64,7 @@ required
             name="address"
             value={shippingInfo.address}
             onChange={handleClick}
-            className="p-3 w-80"
+            className="p-3 w-80 shadow-md"
           />
 
           <input
@@ -74,26 +74,18 @@ required
             name="pincode"
             value={shippingInfo.pincode}
             onChange={handleClick}
-            className="p-3 w-80"
+            className="p-3 w-80 shadow-md"
           />
           <input
           required
             type="text"
-            placeholder="City"
+            placeholder="City & State"
             name="city"
             value={shippingInfo.city}
             onChange={handleClick}
-            className="p-3 w-80"
+            className="p-3 w-80 shadow-md"
           />
-          <input
-          required
-            type="text"
-            placeholder="State"
-            name="state"
-            value={shippingInfo.state}
-            onChange={handleClick}
-            className="p-3 w-80"
-          />
+          
 
           <input
           required
@@ -102,11 +94,11 @@ required
             name="phone"
             value={shippingInfo.phone}
             onChange={handleClick}
-            className="p-3 w-80"
+            className="p-3 w-80 shadow-md"
           />
-          <button className="p-3 h-10 w-80 text-white bg-blue-900">
-            Save & Continue
-          </button>
+          <Link to={"/paymentpage"} className="py-2 px-2 text-center w-80 shadow-xl text-white bg-blue-900">
+            Pay Now
+          </Link>
         </div>
       </form>
     </div>
