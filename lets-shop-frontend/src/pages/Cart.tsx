@@ -43,15 +43,15 @@ const Cart = () => {
 
 
   return (
-    <div className="flex flex-row justify-between items-stretch bg-gray-50 gap-4 h-[calc(100vh-4rem)] ">
-      <main className="w-[70%] h-full ">
+    <div className="flex flex-row justify-between items-stretch  my-4 gap-8 px-4 h-[calc(100vh-4rem)] ">
+      <main className="w-[70%] h-fit bg-white shadow-md">
         {cartItems.length > 0 ? (
           cartItems.map((i, idx) => <CartItem key={idx} cartItem={i} />)
         ) : (
           <h1>No Items Added</h1>
         )}
       </main>
-      <aside className="w-[30%] text-base leading-8 pl-40 py-8 font-normal flex-col items-center justify-stretch gap-6">
+      <aside className="w-[30%] text-base leading-8 ml-5 px-10 mx-2 h-fit py-8 font-normal flex-col items-center justify-stretch gap-6 bg-white shadow-md">
         <p>Subtotal : ₹ {subtotal}</p>
         <p>Tax : ₹ {tax}</p>
         <p>Shipping Charges : ₹ {shippingCharges}</p>

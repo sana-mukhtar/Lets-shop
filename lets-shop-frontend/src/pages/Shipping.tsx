@@ -24,7 +24,7 @@ const Shipping = () => {
   }
   return (
     <div className="bg-gray-50 w-[100vw]">
-      <div className="flex flex-row justify-start items-stretch ml-8 pt-2 gap-[40vw] ">
+      <div className="flex flex-row justify-start items-stretch ml-2   pt-2 gap-[40vw] ">
         <Link to="/cart">
           <GrLinkPrevious className="h-12 w-12 rounded-md bg-gray-100 p-4 cursor-pointer hover:bg-black hover:text-white" />
         </Link>

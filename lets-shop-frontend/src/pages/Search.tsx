@@ -11,7 +11,7 @@ const Search = () => {
     const isPrev = page>1;
     const isNext = page<4;
   return (
-    <div className="search p-5 flex justify-start items-stretch gap-8 min-h-[calc(100vh-5rem)] bg-slate-200">
+    <div className="search p-5 flex justify-start items-stretch gap-8 min-h-[calc(100vh-5rem)] bg-[#f4f4f4]">
       <aside className="min-w-80 p-8 flex flex-col justify-start items-stretch gap-2 border shadow-md bg-white border-1 border-gray-300">
         <h2 className="text-xl font-md  text-gray-600 tracking-widest">
           FILTERS
@@ -68,7 +68,7 @@ const Search = () => {
           </select>
         </div>
       </aside>
-      <main className="flex flex-col justify-start items-start bg-[#f4f4f4]  min-w-[calc(100vw-25rem)] px-12 shadow-md">
+      <main className="flex flex-col justify-start items-start bg-[#fff]  min-w-[calc(100vw-25rem)] px-12 shadow-md">
         <h1 className="text-3xl font-normal tracking-widest py-5 ">PRODUCTS</h1>
         <input
           type="text"

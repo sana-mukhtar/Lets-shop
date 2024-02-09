@@ -10,8 +10,8 @@ const Home = () => {
       <h1 className="text-2xl mt-12 mb-5 flex flex-row justify-between items-center">
         <>LATEST PRODUCTS </>
         <>
-          <Link to={"/search"} className="text-[1rem]">
-            MORE{" "}
+          <Link to={"/search"} className="text-[1rem] hover:text-blue-700 hover:underline hover:text-lg">
+            More>>{" "}
           </Link>{" "}
         </>
       </h1>

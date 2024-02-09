@@ -12,22 +12,31 @@ const user = { _id: "asdf", role: "admin" };
 const Header = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
-    <nav className="flex justify-end items-stretch gap-14 flex-row h-20 bg-[#fafcfa] p-5 ">
-      <Link to={"/"} className="font-bold ">
+    <nav className="flex justify-end items-stretch gap-16 flex-row h-20 bg-[#fafcfa] p-5 ">
+      <Link
+        to={"/"}
+        className="font-bold text-lg tracking-wider mt-3 hover:text-[1.2rem] hover:text-blue-600"
+      >
         HOME
       </Link>
-      <Link to={"/search"}>
+      <Link
+        to={"/search"}
+        className="mt-4 hover:text-[1.2rem] hover:text-blue-600"
+      >
         <FaSearch />
       </Link>
-      <Link to={"/cart"}>
+      <Link
+        to={"/cart"}
+        className="mt-4 hover:text-[1.2rem] hover:text-blue-600"
+      >
         <FaShoppingBag />
       </Link>
 
-      <div className="">
+      <div className="mt-4">
         {user?._id ? (
           <>
             <button onClick={() => setIsOpen((prev) => !prev)}>
-              <FaUser />
+              <FaUser className="hover:text-[1.2rem] hover:text-blue-600" />
             </button>
 
             <dialog
