@@ -118,7 +118,7 @@ const Search = () => {
           >
             Prev
           </button>
-          <span>
+          <span className="">
             {page} of {4}
           </span>
           <button
