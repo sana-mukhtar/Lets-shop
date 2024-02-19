@@ -110,7 +110,7 @@ const Search = () => {
             />
           </div>
         </div>
-        <article className="flex flex-row  justify-center items-center gap-2 lg:mx-96 mt-24 ">
+        <article className="flex flex-row  justify-center items-center gap-2 mb-6 lg:mx-96 mt-24 ">
           <button
             disabled={!isPrev}
             className="border border-none shadow-lg rounded-md  py-1 px-3 mx-1 bg-blue-800 text-white font-thin disabled:bg-gray-400 disabled:cursor-not-allowed"
@@ -118,8 +118,10 @@ const Search = () => {
           >
             Prev
           </button>
-          <span className="">
-            {page} of {4}
+          <span className="flex flex-row gap-1">
+            <p>{page}</p>
+            <p>of</p> 
+            <p>{4}</p> 
           </span>
           <button
             disabled={!isNext}
