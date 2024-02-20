@@ -14,7 +14,7 @@ interface IUser extends Document {
   age: number;
 
 }
-const userSchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
   {
     _id: {
       type: String,
@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.virtual("age").get(function(){
+schema.virtual("age").get(function(){
     const today = new Date();
     const dob = this.dob;
     let age = today.getFullYear() - dob.getFullYear();
@@ -62,4 +62,4 @@ userSchema.virtual("age").get(function(){
     return age;
 })
 
-export const User = mongoose.model<IUser>("User" , userSchema);
+export const User = mongoose.model<IUser>("User" , schema);
