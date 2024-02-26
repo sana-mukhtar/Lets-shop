@@ -18,30 +18,30 @@ const schema = new mongoose.Schema(
   {
     _id: {
       type: String,
-      require: [true, "Enter your ID"],
+      required: [true, "Enter your ID"],
     },
     name: {
       type: String,
-      require: [true, "Enter your name"],
+      required: [true, "Enter your name"],
     },
     email: {
       type: String,
-      require: [true, "Enter your email"],
+      required: [true, "Enter your email"],
       unique : [true , "Email Already exists"],
       validate : validator.default.isEmail,
     },
     gender: {
       type: String,
       enum : ["Male" , "Female"],
-      require: [true, "Enter your gender"],
+      required: [true, "Enter your gender"],
     },
      dob: {
       type: Date,
-      require: [true, "Enter your date of birth"],
+      required: [true, "Enter your date of birth"],
     },
     photo: {
       type: String,
-      require: [true, "Add your photo"],
+      required: [true, "Add your photo"],
     },
     role: {
       type: String,
@@ -62,4 +62,7 @@ schema.virtual("age").get(function(){
     return age;
 })
 
+
+
 export const User = mongoose.model<IUser>("User" , schema);
+
