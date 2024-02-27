@@ -1,5 +1,8 @@
 import express from "express";
+import { connectDB } from "./utils/features.js";
 const port = 3000;
+
+connectDB();
 const app = express();
 
 app.get("/" , (req, res)=>{

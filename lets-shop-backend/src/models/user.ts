@@ -3,66 +3,71 @@ import validator from "validator";
 
 interface IUser extends Document {
   _id: string;
-  name: String;
-  email: String;
-  gender:"Male" | "Female";
+  name: string;
+  email: string;
+  photo: string;
+  role: "admin" | "user";
+  gender: "male" | "female";
   dob: Date;
-  photo:String;
-  role:"user"| "admin";
-  createdAt:Date;
-  updatedAt:Date;
+  createdAt: Date;
+  updatedAt: Date;
+  //   Virtual Attribute
   age: number;
-
 }
+
 const schema = new mongoose.Schema(
   {
     _id: {
       type: String,
-      required: [true, "Enter your ID"],
+      required: [true, "Please enter ID"],
     },
     name: {
       type: String,
-      required: [true, "Enter your name"],
+      required: [true, "Please enter Name"],
     },
     email: {
       type: String,
-      required: [true, "Enter your email"],
-      unique : [true , "Email Already exists"],
-      validate : validator.default.isEmail,
-    },
-    gender: {
-      type: String,
-      enum : ["Male" , "Female"],
-      required: [true, "Enter your gender"],
-    },
-     dob: {
-      type: Date,
-      required: [true, "Enter your date of birth"],
+      unique: [true, "Email already Exist"],
+      required: [true, "Please enter Name"],
+      validate: validator.default.isEmail,
     },
     photo: {
       type: String,
-      required: [true, "Add your photo"],
+      required: [true, "Please add Photo"],
     },
     role: {
       type: String,
-      enum: ["user", "admin"],
+      enum: ["admin", "user"],
       default: "user",
     },
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+      required: [true, "Please enter Gender"],
+    },
+    dob: {
+      type: Date,
+      required: [true, "Please enter Date of birth"],
+    },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
-schema.virtual("age").get(function(){
-    const today = new Date();
-    const dob = this.dob;
-    let age = today.getFullYear() - dob.getFullYear();
-    if(today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())
-    ) age--;
-  
-    return age;
-})
+schema.virtual("age").get(function () {
+  const today = new Date();
+  const dob = this.dob;
+  let age = today.getFullYear() - dob.getFullYear();
 
+  if (
+    today.getMonth() < dob.getMonth() ||
+    (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())
+  ) {
+    age--;
+  }
 
+  return age;
+});
 
-export const User = mongoose.model<IUser>("User" , schema);
-
+export const User = mongoose.model<IUser>("User", schema);
