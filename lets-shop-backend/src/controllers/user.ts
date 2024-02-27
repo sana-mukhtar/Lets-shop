@@ -13,7 +13,7 @@ export const newUser = async (
       name,
       email,
       photo,
-      dob,
+      dob:new Date(dob),
       _id,
       gender,
       role,
@@ -22,5 +22,11 @@ export const newUser = async (
       success: true,
       message: `Welcome ${user.name}`,
     });
-  } catch (error) {}
+  } catch (error) {
+    return res.status(200).json({
+      success: false,
+      message: error,
+    });
+
+  }
 };

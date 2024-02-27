@@ -5,6 +5,8 @@ const port = 3000;
 connectDB();
 const app = express();
 
+app.use(express.json());
+
 app.get("/" , (req, res)=>{
     res.send("API working with /api/v1");
 })
