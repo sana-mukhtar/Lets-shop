@@ -1,5 +1,6 @@
 import { useState } from "react"
 import ProductCard from "../components/ProductCard";
+// import { FaBars } from "react-icons/fa";
 
 const Search = () => {
   const [sort , setSort] = useState("")
@@ -12,7 +13,7 @@ const Search = () => {
     const isNext = page<4;
   return (
     <div className="search p-5 flex justify-start items-stretch gap-8 min-h-[calc(100vh-5rem)] bg-[#f4f4f4]">
-      <aside className="min-w-80 p-8 flex flex-col justify-start items-stretch gap-2 border shadow-md bg-white border-1 border-gray-300">
+      <aside className="min-w-80 p-8 hidden sm:block flex-col justify-start items-stretch gap-2 border shadow-md bg-white border-1 border-gray-300">
         <h2 className="text-xl font-md  text-gray-600 tracking-widest">
           FILTERS
         </h2>
@@ -69,13 +70,16 @@ const Search = () => {
         </div>
       </aside>
       <main className="flex flex-col justify-start items-start bg-[#fff]  min-w-[calc(100vw-25rem)] px-12 shadow-md">
+        <button className="block sm:hidden bg-green-800 p-2">
+       button
+        </button>
         <h1 className="text-3xl font-normal tracking-widest py-5 ">PRODUCTS</h1>
         <input
           type="text"
           placeholder="Search by name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="mb-4 py-2 px-2 rounded-md w-[40%] shadow-md"
+          className="mb-4 py-2 px-2 rounded-md w-[50vw] shadow-md "
         />
         <div className="flex flex-row justify-start items-start gap-4 flex-wrap overflow-y-auto">
           <div className="">
@@ -120,8 +124,8 @@ const Search = () => {
           </button>
           <span className="flex flex-row gap-1">
             <p>{page}</p>
-            <p>of</p> 
-            <p>{4}</p> 
+            <p>of</p>
+            <p>{4}</p>
           </span>
           <button
             disabled={!isNext}

@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/" , (req, res)=>{
+app.get("/" , (req, res)=>{   
     res.send("API working with /api/v1");
 })
 
