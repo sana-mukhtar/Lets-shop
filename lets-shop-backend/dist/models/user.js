@@ -1,45 +1,49 @@
 import mongoose from "mongoose";
 import validator from "validator";
-const userSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     _id: {
         type: String,
-        require: [true, "Enter your ID"],
+        required: [true, "Please enter ID"],
     },
     name: {
         type: String,
-        require: [true, "Enter your name"],
+        required: [true, "Please enter Name"],
     },
     email: {
         type: String,
-        require: [true, "Enter your email"],
-        unique: [true, "Email Already exists"],
+        unique: [true, "Email already Exist"],
+        required: [true, "Please enter Name"],
         validate: validator.default.isEmail,
-    },
-    gender: {
-        type: String,
-        enum: ["Male", "Female"],
-        require: [true, "Enter your gender"],
-    },
-    dob: {
-        type: Date,
-        require: [true, "Enter your date of birth"],
     },
     photo: {
         type: String,
-        require: [true, "Add your photo"],
+        required: [true, "Please add Photo"],
     },
     role: {
         type: String,
-        enum: ["user", "admin"],
+        enum: ["admin", "user"],
         default: "user",
     },
-}, { timestamps: true });
-userSchema.virtual("age").get(function () {
+    gender: {
+        type: String,
+        enum: ["male", "female"],
+        required: [true, "Please enter Gender"],
+    },
+    dob: {
+        type: Date,
+        required: [true, "Please enter Date of birth"],
+    },
+}, {
+    timestamps: true,
+});
+schema.virtual("age").get(function () {
     const today = new Date();
     const dob = this.dob;
     let age = today.getFullYear() - dob.getFullYear();
-    if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate()))
+    if (today.getMonth() < dob.getMonth() ||
+        (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
         age--;
+    }
     return age;
 });
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model("User", schema);
