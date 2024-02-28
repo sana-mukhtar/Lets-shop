@@ -18,12 +18,12 @@ export const newUser = async (
       gender,
       role,
     });
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: `Welcome ${user.name}`,
     });
   } catch (error) {
-    return res.status(200).json({
+    return res.status(400).json({
       success: false,
       message: error,
     });
