@@ -9,13 +9,9 @@ app.get("/", (req, res) => {
 });
 //import userRoutes
 import userRoutes from "./routes/user.js";
+import { errorMiddleWare } from "./middlewares/error.js";
 app.use("/api/v1/user", userRoutes);
-app.use((err, req, res, next) => {
-    return res.status(400).json({
-        success: true,
-        message: "some error"
-    });
-});
+app.use(errorMiddleWare);
 app.listen(port, () => {
     console.log(`Express is running on ${port}`);
 });
