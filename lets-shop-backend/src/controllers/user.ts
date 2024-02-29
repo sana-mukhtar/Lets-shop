@@ -2,14 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../models/user.js";
 import { newUserRequestBody } from "../types/types.js";
 import ErrorHandler from "../utils/utility-class.js";
+import { TryCatch } from "../middlewares/error.js";
 
-export const newUser = async (
+export const newUser = TryCatch(async (
   req: Request<{} , {} , newUserRequestBody>,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-   throw new Error("throwing new error in user.ts");
     const {name , email , photo , dob , _id , gender , role} = req.body;
     const user = await User.create({
       name,
@@ -24,7 +23,5 @@ export const newUser = async (
       success: true,
       message: `Welcome ${user.name}`,
     });
-  } catch (error) {
-   next(error);
-  }
-};
+ 
+});
