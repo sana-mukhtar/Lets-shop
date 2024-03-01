@@ -1,4 +1,4 @@
-import  { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 export interface newUserRequestBody {
   name: string;
   email: string;
@@ -6,7 +6,14 @@ export interface newUserRequestBody {
   gender: string;
   dob: Date;
   _id: string;
-  role : string;
+  role: string;
+}
+
+export interface newProductRequestBody {
+  name: string;
+  category: string;
+  price: number;
+  stock: number;
 }
 
 export type ControllerType = (
