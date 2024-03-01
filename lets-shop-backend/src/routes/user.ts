@@ -10,7 +10,7 @@ app.post("/new" , newUser)
 //  /api/v1/user/all
 app.get("/all" , getAllUsers);
 
-//  /api/v1/user/all
+//  /api/v1/user/dynamicid
 app.get("/:id" , getUser)
 
 export default app;

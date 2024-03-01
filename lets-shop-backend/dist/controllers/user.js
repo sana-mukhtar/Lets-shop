@@ -1,6 +1,7 @@
 import { User } from "../models/user.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { TryCatch } from "../middlewares/error.js";
+import httpStatus from "http-status";
 export const newUser = TryCatch(async (req, res, next) => {
     const { name, email, photo, dob, _id, gender, role } = req.body;
     let user = await User.findById(_id);
@@ -27,8 +28,18 @@ export const newUser = TryCatch(async (req, res, next) => {
 });
 export const getAllUsers = TryCatch(async (req, res, next) => {
     const users = await User.find({});
-    return res.status(201).json({
+    return res.status(httpStatus.OK).json({
         success: true,
         users,
+    });
+});
+export const getUser = TryCatch(async (req, res, next) => {
+    const { id } = req.params;
+    const user = await User.findOne({ _id: id });
+    if (!user)
+        return next(new ErrorHandler("Invalid id", 400));
+    return res.status(201).json({
+        success: true,
+        user,
     });
 });
