@@ -48,13 +48,28 @@ export const getAllUsers = TryCatch(async (req, res, next) => {
 });
 
 export const getUser = TryCatch(async (req, res, next) => {
-  const {id} = req.params as {id:string} ;
-  const user = await User.findOne({_id:id});
+  const { id } = req.params as { id: string };
+  const user = await User.findOne({ _id: id });
 
   if (!user) return next(new ErrorHandler("Invalid id", 400));
 
   return res.status(201).json({
     success: true,
     user,
+  });
+});
+
+//delete one user
+export const deleteUser = TryCatch(async (req, res, next) => {
+  const { id } = req.params as { id: string };
+  const user = await User.findOne({ _id: id });
+
+  if (!user) return next(new ErrorHandler("Invalid id", 400));
+
+  await user.deleteOne();
+
+  return res.status(201).json({
+    success: true,
+    message: "User Deleted Successfully",
   });
 });
