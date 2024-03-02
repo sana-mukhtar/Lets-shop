@@ -39,7 +39,7 @@ export const newUser = TryCatch(
   }
 );
 
-export const getAllUsers = TryCatch(async (req, res, next) => {
+export const getAllUsers = TryCatch(async (req:Request, res:Response, next:NextFunction) => {
   const users = await User.find({});
   return res.status(httpStatus.OK).json({
     success: true,
@@ -47,7 +47,7 @@ export const getAllUsers = TryCatch(async (req, res, next) => {
   });
 });
 
-export const getUser = TryCatch(async (req, res, next) => {
+export const getUser = TryCatch(async (req:Request, res:Response, next:NextFunction) => {
   const { id } = req.params as { id: string };
   const user = await User.findOne({ _id: id });
 
@@ -60,7 +60,7 @@ export const getUser = TryCatch(async (req, res, next) => {
 });
 
 //delete one user
-export const deleteUser = TryCatch(async (req, res, next) => {
+export const deleteUser = TryCatch(async (req:Request, res:Response, next:NextFunction) => {
   const { id } = req.params as { id: string };
   const user = await User.findOne({ _id: id });
 

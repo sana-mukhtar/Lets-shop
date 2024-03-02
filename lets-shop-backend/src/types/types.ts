@@ -21,3 +21,10 @@ export type ControllerType = (
   res: Response,
   next: NextFunction
 ) => Promise<void | Response<any, Record<string, any>>>;
+
+export type productControllerType = (
+  req: Request<{}, {}, newProductRequestBody>,
+  res: Response,
+  next: NextFunction
+) => Promise<void | Response<any, Record<string, any>>>;
+
