@@ -13,14 +13,13 @@ export const newProduct = productTryCatch(
   ) => {
     const { name, stock, category, price } = req.body;
     const photo = req.file;
-if (!photo) return next(new ErrorHandler("Please Add Photo", 400));
+    if (!photo) return next(new ErrorHandler("Please Add Photo", 400));
     if (!name || !stock || !category || !price) {
-        rm(photo.path , ()=>{
-            console.log("photo deleted");
-        })
+      rm(photo.path, () => {
+        console.log("photo deleted");
+      });
       return next(new ErrorHandler("please enter all fields", 400));
     }
-    
 
     await Product.create({
       name,
@@ -36,3 +35,11 @@ if (!photo) return next(new ErrorHandler("Please Add Photo", 400));
     });
   }
 );
+
+export const getLatestProducts = productTryCatch(async (req, res, next) => {
+  const products = await Product.find({}).sort({createdAt : -1}).limit(5);
+  return res.status(201).json({
+    success: true,
+    products,
+  });
+});
