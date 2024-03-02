@@ -13,6 +13,7 @@ import productRoutes from "./routes/product.js";
 import { errorMiddleWare } from "./middlewares/error.js";
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/product", productRoutes);
+app.use("uploads", express.static("uploads"));
 app.use(errorMiddleWare);
 app.listen(port, () => {
     console.log(`Express is running on ${port}`);

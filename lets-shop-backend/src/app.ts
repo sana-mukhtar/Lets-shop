@@ -21,7 +21,7 @@ import { errorMiddleWare } from "./middlewares/error.js";
 app.use("/api/v1/user" , userRoutes);   
 app.use("/api/v1/product", productRoutes);
 
-
+app.use("uploads" , express.static("uploads"));
 app.use(errorMiddleWare)
 
 
