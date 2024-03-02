@@ -21,6 +21,7 @@ const schema = new mongoose.Schema(
     category: {
       type: String,
       required: [true, "Please Enter Category"],
+      trim:true
     },
   },
   {
