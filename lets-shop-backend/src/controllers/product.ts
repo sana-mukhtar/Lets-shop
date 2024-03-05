@@ -43,3 +43,12 @@ export const getLatestProducts = productTryCatch(async (req, res, next) => {
     products,
   });
 });
+
+
+export const getAllCategories = productTryCatch(async (req, res, next) => {
+  const categories = await Product.distinct("category");
+  return res.status(201).json({
+    success: true,
+    categories,
+  });
+});
