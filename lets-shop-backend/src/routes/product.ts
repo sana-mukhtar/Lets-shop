@@ -8,7 +8,7 @@ const app = express.Router();
 
 app.post("/new" , adminOnly, singleUpload, newProduct);
 
-app.post("/latest" , getLatestProducts);
+app.get("/latest" , getLatestProducts);
 
 
 export default app;

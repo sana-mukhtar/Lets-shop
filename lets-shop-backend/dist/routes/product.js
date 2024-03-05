@@ -4,5 +4,5 @@ import { singleUpload } from "../middlewares/multer.js";
 import { adminOnly } from "../middlewares/auth.js";
 const app = express.Router();
 app.post("/new", adminOnly, singleUpload, newProduct);
-app.post("/latest", getLatestProducts);
+app.get("/latest", getLatestProducts);
 export default app;
