@@ -7,4 +7,5 @@ app.post("/new", adminOnly, singleUpload, newProduct);
 app.get("/latest", getLatestProducts);
 app.get("/categories", getAllCategories);
 app.get("/admin-products", getAdminProducts);
+app.route("/:id").get();
 export default app;
