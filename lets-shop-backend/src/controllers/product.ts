@@ -122,3 +122,11 @@ export const deleteProduct = productTryCatch(
     });
   }
 );
+
+export const searchAllProducts = productTryCatch(async (req, res, next) => {
+  const products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+  return res.status(201).json({
+    success: true,
+    products,
+  });
+});
