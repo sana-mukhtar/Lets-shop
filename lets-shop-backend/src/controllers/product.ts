@@ -5,6 +5,7 @@ import { newProductRequestBody } from "../types/types.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
 
+//new product
 export const newProduct = productTryCatch(
   async (
     req: Request<{}, {}, newProductRequestBody>,
@@ -36,15 +37,16 @@ export const newProduct = productTryCatch(
   }
 );
 
+//latest product
 export const getLatestProducts = productTryCatch(async (req, res, next) => {
-  const products = await Product.find({}).sort({createdAt : -1}).limit(5);
+  const products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
   return res.status(201).json({
     success: true,
     products,
   });
 });
 
-
+//get all categories
 export const getAllCategories = productTryCatch(async (req, res, next) => {
   const categories = await Product.distinct("category");
   return res.status(201).json({
@@ -53,6 +55,7 @@ export const getAllCategories = productTryCatch(async (req, res, next) => {
   });
 });
 
+//get admin products
 export const getAdminProducts = productTryCatch(async (req, res, next) => {
   const products = await Product.find({});
   return res.status(201).json({
@@ -61,11 +64,42 @@ export const getAdminProducts = productTryCatch(async (req, res, next) => {
   });
 });
 
-export const getSingleProduct = productTryCatch(async (req:Request, res, next) => {
-  const id = req.params.id
+//get product details
+export const getSingleProduct = productTryCatch(
+  async (req: Request, res, next) => {
+    const id = req.params.id;
+    const product = await Product.findById(id);
+    return res.status(201).json({
+      success: true,
+      product,
+    });
+  }
+);
+
+//update product
+export const updateProduct = productTryCatch(async (req, res, next) => {
+  const id = req.params;
+  const { name, stock, category, price } = req.body;
+  const photo = req.file;
   const product = await Product.findById(id);
-  return res.status(201).json({
+
+  if (!product) return next(new ErrorHandler("Product Not Found", 404));
+
+  if (photo) {
+    rm(product.photo!, () => {
+      console.log("Photo Updated");
+    });
+    product.photo = photo.path;
+  }
+
+  if (name) product.name = name;
+  if (price) product.price = price;
+  if (stock) product.stock = stock;
+  if (category) product.category = category;
+
+  await product.save();
+  return res.status(200).json({
     success: true,
-    product,
+    message: "Product Updated Successfully",
   });
 });
