@@ -1,7 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { productTryCatch } from "../middlewares/error.js";
 import { Product } from "../models/products.js";
-import { newProductRequestBody, searchRequestQuery } from "../types/types.js";
+import {
+  baseQuery,
+  newProductRequestBody,
+  searchRequestQuery,
+} from "../types/types.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
 
@@ -123,17 +127,43 @@ export const deleteProduct = productTryCatch(
   }
 );
 
+//search product
 export const searchProducts = productTryCatch(
   async (req: Request<{}, {}, {}, searchRequestQuery>, res, next) => {
-    const {search , sort , category , price} = req.query;
+    const { search, sort, category, price } = req.query;
     const page = Number(req.query.page) || 1;
     const limit = Number(process.env.PRODUCT_PER_PAGE) || 8;
-    const skip = (page-1)*limit;
-    const products = await Product.find({});
+    const skip = (page - 1) * limit;
 
+    const baseQuery: baseQuery = {};
+
+    if (search)
+      baseQuery.name = {
+        $regex: search,
+        $options: "i",
+      };
+
+    if (price)
+      baseQuery.price = {
+        $lte: Number(price),
+      };
+
+    if (category) baseQuery.category = category;
+
+    const productPromise = Product.find(baseQuery)
+      .sort(sort && { price: sort === "asc" ? 1 : -1 })
+      .limit(limit)
+      .skip(skip);
+
+    const [products, filteredProduct] = await Promise.all([
+      productPromise,
+      Product.find(baseQuery),
+    ]);
+    const total_page = Math.ceil(filteredProduct.length / limit);
     return res.status(201).json({
       success: true,
       products,
+      total_page,
     });
   }
 );

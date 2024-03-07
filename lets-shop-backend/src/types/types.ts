@@ -35,3 +35,14 @@ export type searchRequestQuery = {
   sort?: string;
   page?: string;
 };
+
+export interface baseQuery {
+  name?: {
+    $regex: string;
+    $options: string;
+  };
+  price?: {
+    $lte: number;
+  };
+  category?: string;
+}
