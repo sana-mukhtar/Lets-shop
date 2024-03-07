@@ -1,5 +1,5 @@
 import express from "express";
-import { getAdminProducts, getAllCategories, getLatestProducts, newProduct } from "../controllers/product.js";
+import { getAdminProducts, getAllCategories, getLatestProducts, getSingleProduct, newProduct } from "../controllers/product.js";
 import { singleUpload } from "../middlewares/multer.js";
 import { adminOnly } from "../middlewares/auth.js";
 
@@ -14,7 +14,7 @@ app.get("/categories", getAllCategories);
 
 app.get("/admin-products", getAdminProducts);
 
-app.route("/:id").get()
+app.route("/:id").get(getSingleProduct)
 
 
 
