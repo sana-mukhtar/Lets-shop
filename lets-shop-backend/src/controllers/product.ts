@@ -77,32 +77,33 @@ export const getSingleProduct = productTryCatch(
 );
 
 //update product
-export const updateProduct = productTryCatch(async (req, res, next) => {
-  const id = req.params;
-  const { name, stock, category, price } = req.body;
-  const photo = req.file;
-  const product = await Product.findById(id);
+export const updateProduct = productTryCatch(
+  async (req: Request, res, next) => {
+    const { name, stock, category, price } = req.body;
+    const photo = req.file;
+    const product = await Product.findById(req.params.id);
 
-  if (!product) return next(new ErrorHandler("Product Not Found", 404));
+    if (!product) return next(new ErrorHandler("Product Not Found", 404));
 
-  if (photo) {
-    rm(product.photo!, () => {
-      console.log("Photo Updated");
+    if (photo) {
+      rm(product.photo!, () => {
+        console.log("Photo Updated");
+      });
+      product.photo = photo.path;
+    }
+
+    if (name) product.name = name;
+    if (price) product.price = price;
+    if (stock) product.stock = stock;
+    if (category) product.category = category;
+
+    await product.save();
+    return res.status(200).json({
+      success: true,
+      message: "Product Updated Successfully",
     });
-    product.photo = photo.path;
   }
-
-  if (name) product.name = name;
-  if (price) product.price = price;
-  if (stock) product.stock = stock;
-  if (category) product.category = category;
-
-  await product.save();
-  return res.status(200).json({
-    success: true,
-    message: "Product Updated Successfully",
-  });
-});
+);
 
 //delete product
 export const deleteProduct = productTryCatch(
@@ -117,7 +118,7 @@ export const deleteProduct = productTryCatch(
 
     return res.status(200).json({
       success: true,
-      message:"Product Deleted Successfully",
+      message: "Product Deleted Successfully",
     });
   }
 );

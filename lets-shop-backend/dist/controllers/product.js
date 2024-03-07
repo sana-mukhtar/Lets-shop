@@ -61,10 +61,9 @@ export const getSingleProduct = productTryCatch(async (req, res, next) => {
 });
 //update product
 export const updateProduct = productTryCatch(async (req, res, next) => {
-    const id = req.params;
     const { name, stock, category, price } = req.body;
     const photo = req.file;
-    const product = await Product.findById(id);
+    const product = await Product.findById(req.params.id);
     if (!product)
         return next(new ErrorHandler("Product Not Found", 404));
     if (photo) {

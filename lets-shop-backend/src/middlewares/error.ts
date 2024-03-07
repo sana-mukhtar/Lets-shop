@@ -24,7 +24,7 @@ export const TryCatch = (func: ControllerType) => {
 };
 
 export const productTryCatch = (func: productControllerType) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request<any>, res: Response, next: NextFunction) => {
     return Promise.resolve(func(req, res, next)).catch(next);
   };
 };
