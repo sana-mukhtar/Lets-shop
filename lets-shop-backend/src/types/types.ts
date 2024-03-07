@@ -28,3 +28,10 @@ export type productControllerType = (
   next: NextFunction
 ) => Promise<void | Response<any, Record<string, any>>>;
 
+export type searchRequestQuery = {
+  search?: string;
+  price?: string;
+  category?: string;
+  sort?: string;
+  page?: string;
+};

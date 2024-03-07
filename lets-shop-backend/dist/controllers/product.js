@@ -100,8 +100,12 @@ export const deleteProduct = productTryCatch(async (req, res, next) => {
         message: "Product Deleted Successfully",
     });
 });
-export const searchAllProducts = productTryCatch(async (req, res, next) => {
-    const products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+export const searchProducts = productTryCatch(async (req, res, next) => {
+    const { search, sort, category, price } = req.query;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(process.env.PRODUCT_PER_PAGE) || 8;
+    const skip = (page - 1) * limit;
+    const products = await Product.find({});
     return res.status(201).json({
         success: true,
         products,

@@ -6,7 +6,7 @@ import {
   getLatestProducts,
   getSingleProduct,
   newProduct,
-  searchAllProducts,
+  searchProducts,
   updateProduct,
 } from "../controllers/product.js";
 import { singleUpload } from "../middlewares/multer.js";
@@ -16,7 +16,7 @@ const app = express.Router();
 
 app.post("/new", adminOnly, singleUpload, newProduct);
 
-app.get("/search", searchAllProducts);
+app.get("/search", searchProducts);
 
 app.get("/latest", getLatestProducts);
 

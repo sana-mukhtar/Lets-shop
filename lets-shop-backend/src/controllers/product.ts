@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { productTryCatch } from "../middlewares/error.js";
 import { Product } from "../models/products.js";
-import { newProductRequestBody } from "../types/types.js";
+import { newProductRequestBody, searchRequestQuery } from "../types/types.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
 
@@ -123,10 +123,17 @@ export const deleteProduct = productTryCatch(
   }
 );
 
-export const searchAllProducts = productTryCatch(async (req, res, next) => {
-  const products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
-  return res.status(201).json({
-    success: true,
-    products,
-  });
-});
+export const searchProducts = productTryCatch(
+  async (req: Request<{}, {}, {}, searchRequestQuery>, res, next) => {
+    const {search , sort , category , price} = req.query;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(process.env.PRODUCT_PER_PAGE) || 8;
+    const skip = (page-1)*limit;
+    const products = await Product.find({});
+
+    return res.status(201).json({
+      success: true,
+      products,
+    });
+  }
+);

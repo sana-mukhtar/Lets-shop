@@ -1,16 +1,16 @@
-import { useState } from "react"
+import { useState } from "react";
 import ProductCard from "../components/ProductCard";
 // import { FaBars } from "react-icons/fa";
 
 const Search = () => {
-  const [sort , setSort] = useState("")
+  const [sort, setSort] = useState("");
   const [search, setSearch] = useState("");
   const [maxPrice, setMaxPrice] = useState(1000);
   const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
-    const addToCartHandler = () => {};
-    const isPrev = page>1;
-    const isNext = page<4;
+  const addToCartHandler = () => {};
+  const isPrev = page > 1;
+  const isNext = page < 4;
   return (
     <div className="search p-5 flex justify-start items-stretch gap-8 min-h-[calc(100vh-5rem)] bg-[#f4f4f4]">
       <aside className="min-w-80 p-8 hidden sm:block flex-col justify-start items-stretch gap-2 border shadow-md bg-white border-1 border-gray-300">
@@ -70,9 +70,7 @@ const Search = () => {
         </div>
       </aside>
       <main className="flex flex-col justify-start items-start bg-[#fff]  min-w-[calc(100vw-25rem)] px-12 shadow-md">
-        <button className="block sm:hidden bg-green-800 p-2">
-       button
-        </button>
+        <button className="block sm:hidden bg-green-800 p-2">button</button>
         <h1 className="text-3xl font-normal tracking-widest py-5 ">PRODUCTS</h1>
         <input
           type="text"
@@ -138,6 +136,6 @@ const Search = () => {
       </main>
     </div>
   );
-}
+};
 
-export default Search
+export default Search;
