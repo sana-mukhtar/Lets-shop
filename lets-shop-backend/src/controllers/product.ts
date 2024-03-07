@@ -103,3 +103,21 @@ export const updateProduct = productTryCatch(async (req, res, next) => {
     message: "Product Updated Successfully",
   });
 });
+
+//delete product
+export const deleteProduct = productTryCatch(
+  async (req: Request, res, next) => {
+    const product = await Product.findById(req.params.id);
+    if (!product) return next(new ErrorHandler("Product Not Found", 404));
+
+    rm(product.photo!, () => {
+      console.log("Product photo deleted");
+    });
+    await product.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message:"Product Deleted Successfully",
+    });
+  }
+);
