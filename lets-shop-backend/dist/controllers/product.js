@@ -2,8 +2,9 @@ import { productTryCatch } from "../middlewares/error.js";
 import { Product } from "../models/products.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
+import { myCache } from "../app.js";
 // import { faker } from "@faker-js/faker";
-//new product
+//new product   ->Revalidate caching on new,update,delete product & on new order
 export const newProduct = productTryCatch(async (req, res, next) => {
     const { name, stock, category, price } = req.body;
     const photo = req.file;
@@ -29,23 +30,44 @@ export const newProduct = productTryCatch(async (req, res, next) => {
 });
 //latest product
 export const getLatestProducts = productTryCatch(async (req, res, next) => {
-    const products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+    let products;
+    if (myCache.has("latest-products")) {
+        products = JSON.parse(myCache.get("latest-products"));
+    }
+    else {
+        products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+        myCache.set("latest-products", JSON.stringify(products));
+    }
     return res.status(201).json({
         success: true,
         products,
     });
 });
-//get all categories
+//get all categories   ->Revalidate caching on new,update,delete product & on new order
 export const getAllCategories = productTryCatch(async (req, res, next) => {
-    const categories = await Product.distinct("category");
+    let categories;
+    if (myCache.has("categories")) {
+        categories = JSON.parse(myCache.get("categories"));
+    }
+    else {
+        categories = await Product.distinct("category");
+        myCache.set("categories", JSON.stringify(categories));
+    }
     return res.status(201).json({
         success: true,
         categories,
     });
 });
-//get admin products
+//get admin products  ->Revalidate caching on new,update,delete product & on new order
 export const getAdminProducts = productTryCatch(async (req, res, next) => {
-    const products = await Product.find({});
+    let products;
+    if (myCache.has("all-products")) {
+        products = JSON.parse(myCache.get("all-products"));
+    }
+    else {
+        products = await Product.find({});
+        myCache.set("all-products", JSON.stringify(products));
+    }
     return res.status(201).json({
         success: true,
         products,

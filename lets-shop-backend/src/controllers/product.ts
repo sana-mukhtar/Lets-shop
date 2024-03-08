@@ -8,9 +8,10 @@ import {
 } from "../types/types.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
+import { myCache } from "../app.js";
 // import { faker } from "@faker-js/faker";
 
-//new product
+//new product   ->Revalidate caching on new,update,delete product & on new order
 export const newProduct = productTryCatch(
   async (
     req: Request<{}, {}, newProductRequestBody>,
@@ -44,25 +45,43 @@ export const newProduct = productTryCatch(
 
 //latest product
 export const getLatestProducts = productTryCatch(async (req, res, next) => {
-  const products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+  let products;
+  if (myCache.has("latest-products")) {
+    products = JSON.parse(myCache.get("latest-products") as string);
+  } else {
+    products = await Product.find({}).sort({ createdAt: -1 }).limit(5);
+    myCache.set("latest-products", JSON.stringify(products));
+  }
   return res.status(201).json({
     success: true,
     products,
   });
 });
 
-//get all categories
+//get all categories   ->Revalidate caching on new,update,delete product & on new order
 export const getAllCategories = productTryCatch(async (req, res, next) => {
-  const categories = await Product.distinct("category");
+  let categories;
+  if (myCache.has("categories")) {
+    categories = JSON.parse(myCache.get("categories") as string);
+  } else {
+    categories = await Product.distinct("category");
+    myCache.set("categories", JSON.stringify(categories));
+  }
   return res.status(201).json({
     success: true,
     categories,
   });
 });
 
-//get admin products
+//get admin products  ->Revalidate caching on new,update,delete product & on new order
 export const getAdminProducts = productTryCatch(async (req, res, next) => {
-  const products = await Product.find({});
+  let products;
+  if (myCache.has("all-products")) {
+    products = JSON.parse(myCache.get("all-products") as string);
+  } else {
+    products = await Product.find({});
+    myCache.set("all-products", JSON.stringify(products));
+  }
   return res.status(201).json({
     success: true,
     products,
@@ -189,7 +208,6 @@ export const searchProducts = productTryCatch(
 //   console.log({success : true});
 // };
 // generateRandomProducts(40);
-
 
 //delete random products
 // const deleteRandomProducts = async (count: number = 10) => {

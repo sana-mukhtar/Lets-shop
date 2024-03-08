@@ -1,8 +1,10 @@
 import express from "express";
 import { connectDB } from "./utils/features.js";
+import NodeCache from "node-cache";
 const port = 3000;
 
 connectDB();
+export const myCache = new NodeCache();
 const app = express();
 
 app.use(express.json());   //middleware=app.use
