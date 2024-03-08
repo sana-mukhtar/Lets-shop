@@ -148,5 +148,9 @@ const generateRandomProducts = async (count = 10) => {
             updatedAt: new Date(faker.date.recent()),
             __v: 0,
         };
+        products.push(product);
     }
+    await Product.create(products);
+    console.log({ success: true });
 };
+// generateRandomProducts(40);
