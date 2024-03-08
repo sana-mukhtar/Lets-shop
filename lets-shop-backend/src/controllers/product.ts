@@ -8,6 +8,7 @@ import {
 } from "../types/types.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
+import { faker } from "@faker-js/faker";
 
 //new product
 export const newProduct = productTryCatch(
@@ -167,3 +168,20 @@ export const searchProducts = productTryCatch(
     });
   }
 );
+
+//generate random products function
+const generateRandomProducts = async (count: number = 10) => {
+  const products = [];
+  for (let i = 0; i < count; i++) {
+    const product = {
+      name: faker.commerce.productName(),
+      photo: "uploads\\2becedea-55cb-4e9d-a377-a739b6a1d596.jpg",
+      price: faker.commerce.price({ min: 1000, max: 80000, dec: 0 }),
+      stock: faker.commerce.price({ min: 0, max: 100, dec: 0 }),
+      category: faker.commerce.department(),
+      createdAt: new Date(faker.date.past()),
+      updatedAt: new Date(faker.date.recent()),
+      __v: 0,
+    };
+  }
+};
