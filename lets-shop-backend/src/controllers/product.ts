@@ -9,6 +9,7 @@ import {
 import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
 import { myCache } from "../app.js";
+import { invalidateCache } from "../utils/features.js";
 // import { faker } from "@faker-js/faker";
 
 //new product   ->Revalidate caching on new,update,delete product & on new order
@@ -35,6 +36,8 @@ export const newProduct = productTryCatch(
       price,
       photo: photo?.path,
     });
+
+    await invalidateCache({product:true});
 
     return res.status(201).json({
       success: true,
@@ -131,6 +134,8 @@ export const updateProduct = productTryCatch(
     if (category) product.category = category;
 
     await product.save();
+    await invalidateCache({ product: true });
+
     return res.status(200).json({
       success: true,
       message: "Product Updated Successfully",
@@ -148,6 +153,8 @@ export const deleteProduct = productTryCatch(
       console.log("Product photo deleted");
     });
     await product.deleteOne();
+    await invalidateCache({ product: true });
+
 
     return res.status(200).json({
       success: true,

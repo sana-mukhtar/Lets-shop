@@ -3,6 +3,7 @@ import { Product } from "../models/products.js";
 import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
 import { myCache } from "../app.js";
+import { invalidateCache } from "../utils/features.js";
 // import { faker } from "@faker-js/faker";
 //new product   ->Revalidate caching on new,update,delete product & on new order
 export const newProduct = productTryCatch(async (req, res, next) => {
@@ -23,6 +24,7 @@ export const newProduct = productTryCatch(async (req, res, next) => {
         price,
         photo: photo?.path,
     });
+    await invalidateCache({ product: true });
     return res.status(201).json({
         success: true,
         message: "Product Created Successfully",
@@ -113,6 +115,7 @@ export const updateProduct = productTryCatch(async (req, res, next) => {
     if (category)
         product.category = category;
     await product.save();
+    await invalidateCache({ product: true });
     return res.status(200).json({
         success: true,
         message: "Product Updated Successfully",
@@ -127,6 +130,7 @@ export const deleteProduct = productTryCatch(async (req, res, next) => {
         console.log("Product photo deleted");
     });
     await product.deleteOne();
+    await invalidateCache({ product: true });
     return res.status(200).json({
         success: true,
         message: "Product Deleted Successfully",
