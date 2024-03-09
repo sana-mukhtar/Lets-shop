@@ -1,7 +1,7 @@
 import express from "express";
 import { connectDB } from "./utils/features.js";
 import NodeCache from "node-cache";
-import { config } from "dotenv";
+import  {config}  from "dotenv";
 import morgan from "morgan";
 
 config({
