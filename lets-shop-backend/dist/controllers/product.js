@@ -75,8 +75,17 @@ export const getAdminProducts = productTryCatch(async (req, res, next) => {
 });
 //get product details
 export const getSingleProduct = productTryCatch(async (req, res, next) => {
+    let product;
     const id = req.params.id;
-    const product = await Product.findById(id);
+    if (myCache.has(`product-${id}`)) {
+        product = JSON.parse(myCache.get(`product-${id}`));
+    }
+    else {
+        product = await Product.findById(id);
+        if (!product)
+            return next(new ErrorHandler("Product Not Found", 404));
+        myCache.set(`product-${id}`, JSON.stringify(product));
+    }
     return res.status(201).json({
         success: true,
         product,
