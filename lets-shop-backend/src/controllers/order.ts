@@ -1,5 +1,6 @@
 import { orderTryCatch } from "../middlewares/error.js";
 import { Order } from "../models/order.js";
+import { reduceStock } from "../utils/features.js";
 
 export const newOrder = orderTryCatch(async (req, res, next) => {
   const {
@@ -12,7 +13,7 @@ export const newOrder = orderTryCatch(async (req, res, next) => {
     total,
     shippingCharges,
   } = req.body;
-  
+
   await Order.create({
     shippingInfo,
     orderItems,
@@ -23,4 +24,5 @@ export const newOrder = orderTryCatch(async (req, res, next) => {
     total,
     shippingCharges,
   });
+  reduceStock();
 });
