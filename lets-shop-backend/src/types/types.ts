@@ -79,3 +79,10 @@ export interface newOrderRequestBody {
   total: number;
   orderItems: orderItemType[];
 }
+
+
+export type orderControllerType = (
+  req: Request<{}, {}, newOrderRequestBody>,
+  res: Response,
+  next: NextFunction
+) => Promise<void | Response<any, Record<string, any>>>;
