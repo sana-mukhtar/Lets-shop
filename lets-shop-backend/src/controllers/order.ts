@@ -1,5 +1,6 @@
-import { orderTryCatch } from "../middlewares/error.js";
+import { TryCatch, orderTryCatch } from "../middlewares/error.js";
 import { Order } from "../models/order.js";
+import { newOrderRequestBody } from "../types/types.js";
 import { invalidateCache, reduceStock } from "../utils/features.js";
 import ErrorHandler from "../utils/utility-class.js";
 
@@ -11,16 +12,13 @@ export const newOrder = orderTryCatch(async (req, res, next) => {
     subtotal,
     tax,
     discount,
-    total,
-    shippingCharges,
+    total , shippingCharges
   } = req.body;
 
-  if(!shippingInfo ||
-    !orderItems ||
-    !user ||
-    !subtotal ||
-    !tax ||
-    !total ) return next(new ErrorHandler("Please fill all the required fields" , 400));
+  
+  
+  if (!shippingInfo || !orderItems || !user || !subtotal ||!discount||!shippingCharges|| !tax || !total)
+    return next(new ErrorHandler("Please fill all the required fields", 400));
 
   await Order.create({
     shippingInfo,
@@ -32,6 +30,7 @@ export const newOrder = orderTryCatch(async (req, res, next) => {
     total,
     shippingCharges,
   });
+
   await reduceStock(orderItems);
   await invalidateCache({ product: true, order: true, admin: true });
 
