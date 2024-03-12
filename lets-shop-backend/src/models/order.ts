@@ -54,7 +54,6 @@ const schema = new mongoose.Schema(
       type: String,
       enum: ["Processing", "Shipped", "Delivered"],
       default: "Processing",
-      required: true,
     },
 
     orderItems: [
