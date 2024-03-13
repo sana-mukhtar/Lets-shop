@@ -69,13 +69,12 @@ export const myOrders = orderTryCatch(async (req, res, next) => {
 
 //All Orders
 export const allOrders = orderTryCatch(async (req, res, next) => {
-  const { id: user } = req.query;
-  const key = `my-orders-${user}`;
+  const key = `all-orders`;
   let orders = [];
 
   if (myCache.has(key)) orders = JSON.parse(myCache.get(key) as string);
   else {
-    orders = await Order.find({ user });
+    orders = await Order.find();
     myCache.set(key, JSON.stringify(orders));
   }
 
