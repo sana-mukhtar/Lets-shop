@@ -17,7 +17,7 @@ export const newOrder = orderTryCatch(async (req, res, next) => {
 
   
   
-  if (!shippingInfo || !orderItems || !user || !subtotal ||!discount||!shippingCharges|| !tax || !total)
+  if (!shippingInfo || !orderItems || !user || !subtotal || !tax || !total)
     return next(new ErrorHandler("Please fill all the required fields", 400));
 
   await Order.create({
