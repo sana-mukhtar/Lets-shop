@@ -30,7 +30,7 @@ export const productTryCatch = (func: productControllerType) => {
 };
 
 export const orderTryCatch = (func: orderControllerType) => {
-  return (req: Request<any>, res: Response, next: NextFunction) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     return Promise.resolve(func(req, res, next)).catch(next);
   };
 };

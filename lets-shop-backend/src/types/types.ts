@@ -78,7 +78,7 @@ export interface newOrderRequestBody {
   shippingCharges: number;
   total: number;
   orderItems: orderItemType[];
-  // _id:string;
+  id:string;
 }
 
 
