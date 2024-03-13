@@ -65,3 +65,28 @@ export const myOrders = orderTryCatch(async (req, res, next) => {
     orders,
   });
 });
+
+
+//All Orders
+export const allOrders = orderTryCatch(async (req, res, next) => {
+  const { id: user } = req.query;
+  const key = `my-orders-${user}`;
+  let orders = [];
+
+  if (myCache.has(key)) orders = JSON.parse(myCache.get(key) as string);
+  else {
+    orders = await Order.find({ user });
+    myCache.set(key, JSON.stringify(orders));
+  }
+
+  invalidateCache({
+    product: true,
+    order: true,
+    admin: true,
+  });
+
+  return res.status(201).json({
+    success: true,
+    orders,
+  });
+});

@@ -1,13 +1,17 @@
 import express from "express";
-import { myOrders, newOrder } from "../controllers/order.js";
+import { allOrders, myOrders, newOrder } from "../controllers/order.js";
 
 const app = express.Router();
 
 // /api/v1/order/new
 app.post("/new", newOrder);
 
-//  /api/v1/user/all
+//  /api/v1/order/myorders
 app.get("/myorders" ,  myOrders);
+
+//  /api/v1/order/allorders
+app.get("/allorders", allOrders);
+
 
 //  /api/v1/user/dynamicid
 // app.get("/:id", getUser);
