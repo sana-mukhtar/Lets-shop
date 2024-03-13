@@ -39,7 +39,7 @@ export const newOrder = orderTryCatch(async (req, res, next) => {
   });
 });
 
-export const myOrder = orderTryCatch(async (req, res, next) => {
+export const myOrders = orderTryCatch(async (req, res, next) => {
   const order = await Order.find();
 
   invalidateCache({

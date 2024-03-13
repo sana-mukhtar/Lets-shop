@@ -1,5 +1,5 @@
 import express from "express";
-import { newOrder } from "../controllers/order.js";
+import { myOrders, newOrder } from "../controllers/order.js";
 
 const app = express.Router();
 
@@ -7,7 +7,7 @@ const app = express.Router();
 app.post("/new", newOrder);
 
 //  /api/v1/user/all
-app.get("/myorders" ,  );
+app.get("/myorders" ,  myOrders);
 
 //  /api/v1/user/dynamicid
 // app.get("/:id", getUser);
