@@ -40,8 +40,6 @@ export const newOrder = orderTryCatch(async (req, res, next) => {
   });
 });
 
-
-
 //My Orders
 export const myOrders = orderTryCatch(async (req, res, next) => {
   const { id: user } = req.query;
@@ -60,12 +58,11 @@ export const myOrders = orderTryCatch(async (req, res, next) => {
     admin: true,
   });
 
-  return res.status(201).json({
+  return res.status(200).json({
     success: true,
     orders,
   });
 });
-
 
 //All Orders
 export const allOrders = orderTryCatch(async (req, res, next) => {
@@ -74,7 +71,7 @@ export const allOrders = orderTryCatch(async (req, res, next) => {
 
   if (myCache.has(key)) orders = JSON.parse(myCache.get(key) as string);
   else {
-    orders = await Order.find();
+    orders = await Order.find().populate("user", "name");
     myCache.set(key, JSON.stringify(orders));
   }
 
@@ -87,5 +84,30 @@ export const allOrders = orderTryCatch(async (req, res, next) => {
   return res.status(201).json({
     success: true,
     orders,
+  });
+});
+
+//Single Order Details
+export const singleOrderDetails = orderTryCatch(async (req, res, next) => {
+  const id = req.params;
+  const key = `order-${id}`;
+  let order;
+
+  if (myCache.has(key)) order = JSON.parse(myCache.get(key) as string);
+  else {
+    order = await Order.findById({id}).populate("user", "name");
+    if (!order) return next(new ErrorHandler("Order Not Found", 404));
+    myCache.set(key, JSON.stringify(order));
+  }
+
+  invalidateCache({
+    product: true,
+    order: true,
+    admin: true,
+  });
+
+  return res.status(201).json({
+    success: true,
+    order,
   });
 });
