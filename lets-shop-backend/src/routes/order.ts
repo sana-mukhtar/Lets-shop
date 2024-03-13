@@ -7,7 +7,7 @@ const app = express.Router();
 app.post("/new", newOrder);
 
 //  /api/v1/user/all
-// app.get("/all", adminOnly ,  getAllUsers);
+app.get("/myorders" ,  );
 
 //  /api/v1/user/dynamicid
 // app.get("/:id", getUser);
