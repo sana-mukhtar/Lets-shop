@@ -1,6 +1,8 @@
 export const errorMiddleWare = (err, req, res, next) => {
     err.message || (err.message = "");
     err.statuscode || (err.statuscode = 500);
+    if (err.name === "CastError")
+        err.message = "Invalid ID";
     return res.status(err.statuscode).json({
         success: false,
         message: err.message,
