@@ -113,6 +113,7 @@ export const singleOrderDetails = orderTryCatch(async (req, res, next) => {
   });
 });
 
+//Process Order
 export const processOrder = orderTryCatch(async (req, res, next) => {
   const { id } = req.params as any;
   const order = await Order.findOne({ _id: id });
@@ -132,12 +133,28 @@ export const processOrder = orderTryCatch(async (req, res, next) => {
       order.status = "Delivered";
       break;
   }
-
   await order.save();
   await invalidateCache({ product: false, order: true, admin: true });
 
   return res.status(201).json({
     success: true,
     message: "Order Processed Successfully",
+  });
+});
+
+//Delete Order
+export const deleteOrder = orderTryCatch(async (req, res, next) => {
+  const { id } = req.params as any;
+  const order = await Order.findOne({ _id: id });
+
+  if (!order) return next(new ErrorHandler("Order Not Found", 400));
+
+ await order.deleteOne();
+  await order.save();
+  await invalidateCache({ product: false, order: true, admin: true });
+
+  return res.status(201).json({
+    success: true,
+    message: "Order Deleted Successfully",
   });
 });

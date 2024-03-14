@@ -1,5 +1,5 @@
 import express from "express";
-import { allOrders, myOrders, newOrder, singleOrderDetails } from "../controllers/order.js";
+import { allOrders, deleteOrder, myOrders, newOrder, processOrder, singleOrderDetails } from "../controllers/order.js";
 import { adminOnly } from "../middlewares/auth.js";
 
 const app = express.Router();
@@ -14,7 +14,7 @@ app.get("/myorders" ,  myOrders);
 app.get("/allorders",adminOnly , allOrders);
 
 
-app.route("/:id").get(singleOrderDetails)
+app.route("/:id").get(singleOrderDetails).put(processOrder).delete(deleteOrder);
 
 
 
