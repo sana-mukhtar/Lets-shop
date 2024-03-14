@@ -14,7 +14,7 @@ app.get("/myorders" ,  myOrders);
 app.get("/allorders",adminOnly , allOrders);
 
 
-app.route("/:id").get(singleOrderDetails).put(processOrder).delete(deleteOrder);
+app.route("/:id").get(singleOrderDetails).put(adminOnly,processOrder).delete(adminOnly ,deleteOrder);
 
 
 
