@@ -5,6 +5,7 @@ import { newOrderRequestBody } from "../types/types.js";
 import { invalidateCache, reduceStock } from "../utils/features.js";
 import ErrorHandler from "../utils/utility-class.js";
 
+//create new order
 export const newOrder = orderTryCatch(async (req, res, next) => {
   const {
     shippingInfo,
@@ -93,8 +94,7 @@ export const singleOrderDetails = orderTryCatch(async (req, res, next) => {
   const key = `order-${id}`;
   let order;
   console.log(id);
-  if (myCache.has(key)) 
-   order = JSON.parse(myCache.get(key) as string);
+  if (myCache.has(key)) order = JSON.parse(myCache.get(key) as string);
   else {
     order = await Order.findOne({ _id: id }).populate("user", "name");
     if (!order) return next(new ErrorHandler("Order Not Found", 404));
@@ -110,5 +110,34 @@ export const singleOrderDetails = orderTryCatch(async (req, res, next) => {
   return res.status(201).json({
     success: true,
     order,
+  });
+});
+
+export const processOrder = orderTryCatch(async (req, res, next) => {
+  const { id } = req.params as any;
+  const order = await Order.findOne({ _id: id });
+
+  if (!order) return next(new ErrorHandler("Order Not Found", 400));
+
+  switch (order.status) {
+    case "Processing":
+      order.status = "Shipped";
+      break;
+
+    case "Shipped":
+      order.status = "Delivered";
+      break;
+
+    default:
+      order.status = "Delivered";
+      break;
+  }
+
+  await order.save();
+  await invalidateCache({ product: false, order: true, admin: true });
+
+  return res.status(201).json({
+    success: true,
+    message: "Order Processed Successfully",
   });
 });
