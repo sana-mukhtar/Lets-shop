@@ -1,3 +1,4 @@
+import { stringify } from "querystring";
 import { myCache } from "../app.js";
 import { TryCatch, orderTryCatch } from "../middlewares/error.js";
 import { Order } from "../models/order.js";
@@ -21,7 +22,7 @@ export const newOrder = orderTryCatch(async (req, res, next) => {
   if (!shippingInfo || !orderItems || !user || !subtotal || !tax || !total)
     return next(new ErrorHandler("Please fill all the required fields", 400));
 
-  await Order.create({
+  const order = await Order.create({
     shippingInfo,
     orderItems,
     user,
@@ -33,7 +34,13 @@ export const newOrder = orderTryCatch(async (req, res, next) => {
   });
 
   await reduceStock(orderItems);
-  await invalidateCache({ product: true, order: true, admin: true });
+  await invalidateCache({
+    product: true,
+    order: true,
+    admin: true,
+    userId: user,
+    productId: order.orderItems.map((i) => String(i.productId)),
+  });
 
   return res.status(201).json({
     success: true,
@@ -134,7 +141,13 @@ export const processOrder = orderTryCatch(async (req, res, next) => {
       break;
   }
   await order.save();
-  await invalidateCache({ product: false, order: true, admin: true });
+  await invalidateCache({
+    product: false,
+    order: true,
+    admin: true,
+    userId: order.user,
+    orderId: String(order._id),
+  });
 
   return res.status(201).json({
     success: true,
@@ -149,9 +162,15 @@ export const deleteOrder = orderTryCatch(async (req, res, next) => {
 
   if (!order) return next(new ErrorHandler("Order Not Found", 400));
 
- await order.deleteOne();
+  await order.deleteOne();
   await order.save();
-  await invalidateCache({ product: false, order: true, admin: true });
+  await invalidateCache({
+    product: false,
+    order: true,
+    admin: true,
+    userId: order.user,
+    orderId: String(order._id),
+  });
 
   return res.status(201).json({
     success: true,
