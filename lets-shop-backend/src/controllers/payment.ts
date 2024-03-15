@@ -27,3 +27,12 @@ export const applyDiscount = TryCatch(async (req: Request, res, next) => {
   });
 });
 
+
+export const allCoupons = TryCatch(async (req: Request, res, next) => {
+  const coupons = await Coupon.find({});
+  return res.status(201).json({
+    success: true,
+    coupons,
+  });
+});
+
