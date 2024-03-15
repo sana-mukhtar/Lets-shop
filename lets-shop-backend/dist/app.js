@@ -22,11 +22,13 @@ import userRoutes from "./routes/user.js";
 import productRoutes from "./routes/product.js";
 import orderRoutes from "./routes/order.js";
 import paymentRoutes from "./routes/payment.js";
+import statsRoutes from "./routes/stats.js";
 import { errorMiddleWare } from "./middlewares/error.js";
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/order", orderRoutes);
 app.use("/api/v1/payment", paymentRoutes);
+app.use("/api/v1/dashboard", statsRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use(errorMiddleWare);
 app.listen(port, () => {
