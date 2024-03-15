@@ -1,15 +1,16 @@
 import express from "express";
-import { getDashboardStats } from "../controllers/stats.js";
+import { getBarCharts, getDashboardStats, getLineCharts, getPieCharts } from "../controllers/stats.js";
+import { adminOnly } from "../middlewares/auth.js";
 
 const app = express.Router();
 
 //routes -> /api/v1/dashboard
-app.get("/stats" , getDashboardStats);
+app.get("/stats" ,adminOnly, getDashboardStats);
 
-app.get("/pie");
+app.get("/pie" ,adminOnly, getPieCharts);
 
-app.get("/bar");
+app.get("/bar" ,adminOnly, getBarCharts);
 
-app.get("/line");
+app.get("/line" ,adminOnly, getLineCharts);
 
 export default app;
