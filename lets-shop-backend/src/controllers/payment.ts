@@ -43,7 +43,7 @@ export const deleteCoupon = TryCatch(async (req: Request, res, next) => {
   coupon.deleteOne();
   return res.status(201).json({
     success: true,
-    message:"Coupon Deleted Successfully",
+    message:`Coupon ${coupon.code} Deleted Successfully`,
   });
 });
 

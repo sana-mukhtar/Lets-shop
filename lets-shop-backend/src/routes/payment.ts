@@ -7,7 +7,7 @@ app.post("/coupon/new", newCoupon);
 
 app.get("/discount", applyDiscount);
 
-app.get("/coupon/all", allCoupons);
+app.get("/coupons/all", allCoupons);
 
 app.delete("/coupon/:id", deleteCoupon);
 
