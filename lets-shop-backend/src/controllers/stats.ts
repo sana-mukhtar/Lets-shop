@@ -12,6 +12,9 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
     stats = JSON.parse(myCache.get("admin-stats") as string);
   else {
     const today = new Date();
+    const sixMonthsago = new Date();
+    sixMonthsago.setMonth(sixMonthsago.getMonth()-6);
+
     const thisMonth = {
       start: new Date(today.getFullYear(), today.getMonth(), 1),
       end: today,
@@ -64,6 +67,13 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
       },
     });
 
+    const lastSixMonthOrderPromise = Order.find({
+      createdAt: {
+        $gte: sixMonthsago,
+        $lte: today,
+      },
+    });
+
     const [
       thisMonthProducts,
       thisMonthUsers,
@@ -74,6 +84,7 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
       productsCount,
       usersCount,
       allOrders,
+      lastSixMonthOrder
     ] = await Promise.all([
       thisMonthProductsPromise,
       thisMonthUsersPromise,
@@ -84,6 +95,8 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
       Product.countDocuments(),
       User.countDocuments(),
       Order.find({}).select("total"),
+     lastSixMonthOrderPromise 
+
     ]);
     
     const thisMonthRevenue = thisMonthOrders.reduce(
@@ -111,7 +124,30 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
       (total, order) => total + (order.total || 0),
       0
     );
-    stats = {changePercent};
+
+    const count = {
+      revenue,
+      user:usersCount,
+      product : productsCount,
+      order : allOrders.length,
+    };
+
+    const orderMonthCounts = new Array(6).fill(0);
+    const orderMonthlyRevenue = new Array(6).fill(0);
+
+     lastSixMonthOrder.forEach((order)=>{
+      const creationDate = order.createdAt;
+      const monthDiff = today.getMonth() - creationDate.getMonth();
+      if(monthDiff < 6){
+        orderMonthCounts[6- monthDiff -1] += 1;
+        orderMonthlyRevenue[6-monthDiff-1] += order.total;
+
+      }
+    });
+    stats = {changePercent,count,chart:{
+      order:orderMonthCounts,
+      revenue:orderMonthlyRevenue
+    }};
   }
 
   return res.status(200).json({
