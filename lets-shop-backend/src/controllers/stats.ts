@@ -212,6 +212,9 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       productsCount,
       outOfStock,
       allOrders,
+      userDob,
+      adminsCount,
+      usersCount
     ] = await Promise.all([
       Order.countDocuments({ status: "Processing" }),
       Order.countDocuments({ status: "Shipped" }),
@@ -219,7 +222,16 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       Product.distinct("category"),
       Product.countDocuments(),
       Product.countDocuments({ stock: 0 }),
-      Order.find({}).select(["total" , "discount","subtotal" , "tax" , "shippingCharges"]),
+      Order.find({}).select([
+        "total",
+        "discount",
+        "subtotal",
+        "tax",
+        "shippingCharges",
+      ]),
+      User.find({}).select(["dob"]),
+      User.countDocuments({ role: "admin" }),
+      User.countDocuments({ role: "user" }),
     ]);
 
     // order fulfillment
@@ -263,11 +275,26 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       marketingCost
     }
 
+    // usersAgeGroup
+    const usersAgeGroup = {
+      teen: userDob.filter((i) => i.age < 20).length,
+      adult: userDob.filter((i) => i.age >= 20 && i.age < 40).length,
+      old: userDob.filter((i) => i.age >= 40).length,
+    };
+
+    //admin user count
+    const adminCustomer = {
+      admins : adminsCount,
+      customers : usersCount
+    }
+
     charts = {
       orderFulfillment,
       categoryCount,
       stockAvailability,
-      revenueDistribution
+      revenueDistribution,
+      usersAgeGroup,
+      adminCustomer
     };
 
     myCache.set("admin-pie-charts", JSON.stringify(charts));
