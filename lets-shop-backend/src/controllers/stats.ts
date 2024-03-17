@@ -172,9 +172,9 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
     const modifiedLatestTransactions = latestTransactions.map((i) => ({
       _id: i._id,
       discount: i.discount,
-      amount : i.total, 
-      quantity : i.orderItems.length,
-      status : i.status,
+      amount: i.total,
+      quantity: i.orderItems.length,
+      status: i.status,
     }));
 
     stats = {
@@ -186,10 +186,10 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
         revenue: orderMonthlyRevenue,
       },
       usersRatio,
-      latestTransactions : modifiedLatestTransactions,
+      latestTransactions: modifiedLatestTransactions,
     };
 
-    myCache.set("admin-stats" , JSON.stringify(stats))
+    myCache.set("admin-stats", JSON.stringify(stats));
   }
   return res.status(200).json({
     success: true,
@@ -197,23 +197,38 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
   });
 });
 
-
 //get pie charts
-export const getPieCharts = TryCatch(async (req , res , next) => {
+export const getPieCharts = TryCatch(async (req, res, next) => {
   let charts;
 
-  if(myCache.has("admin-pie-charts")) charts = JSON.parse(myCache.get("admin-pie-charts") as string)
-
-  else{
-    const [processingOrder, shippedOrder, deliveredOrder , categories ,productsCount] = await Promise.all([
+  if (myCache.has("admin-pie-charts"))
+    charts = JSON.parse(myCache.get("admin-pie-charts") as string);
+  else {
+    const [
+      processingOrder,
+      shippedOrder,
+      deliveredOrder,
+      categories,
+      productsCount,
+      outOfStock,
+    ] = await Promise.all([
       Order.countDocuments({ status: "Processing" }),
       Order.countDocuments({ status: "Shipped" }),
       Order.countDocuments({ status: "Delivered" }),
       Product.distinct("category"),
-      Product.countDocuments()
+      Product.countDocuments(),
+      Product.countDocuments({ stock: 0 }),
     ]);
 
-//categories count (
+    // order fulfillment
+    const orderFulfillment = {
+      Processing: processingOrder,
+      shipped: shippedOrder,
+      delivered: deliveredOrder,
+    };
+    
+
+    //categories count 
     const categoriesCountPromise = categories.map((category) =>
       Product.countDocuments({ category })
     );
@@ -224,25 +239,26 @@ export const getPieCharts = TryCatch(async (req , res , next) => {
         [category]: Math.round((categoriesCount[i] / productsCount) * 100),
       });
     });
-    // )
-    
-    const orderFulfillment = {
-      Processing : processingOrder,
-      shipped : shippedOrder,
-      delivered : deliveredOrder
-    } 
- 
+
+
+    // stock availability
+    const stockAvailability = {
+      inStock: productsCount - outOfStock,
+      outOfStock,
+    }; 
+
     charts = {
       orderFulfillment,
-      categoryCount
-    }
+      categoryCount,
+      stockAvailability,
+    };
 
-    myCache.set("admin-pie-charts" , JSON.stringify(charts));
+    myCache.set("admin-pie-charts", JSON.stringify(charts));
   }
-   return res.status(200).json({
-     success: true,
-     charts,
-   });
+  return res.status(200).json({
+    success: true,
+    charts,
+  });
 });
 
 export const getBarCharts = TryCatch(async () => {});
