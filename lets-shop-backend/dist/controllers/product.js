@@ -4,7 +4,6 @@ import ErrorHandler from "../utils/utility-class.js";
 import { rm } from "fs";
 import { myCache } from "../app.js";
 import { invalidateCache } from "../utils/features.js";
-// import { faker } from "@faker-js/faker";
 //new product   ->Revalidate caching on new,update,delete product & on new order
 export const newProduct = productTryCatch(async (req, res, next) => {
     const { name, stock, category, price } = req.body;
