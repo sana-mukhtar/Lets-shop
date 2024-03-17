@@ -211,6 +211,7 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       categories,
       productsCount,
       outOfStock,
+      allOrders,
     ] = await Promise.all([
       Order.countDocuments({ status: "Processing" }),
       Order.countDocuments({ status: "Shipped" }),
@@ -218,6 +219,7 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       Product.distinct("category"),
       Product.countDocuments(),
       Product.countDocuments({ stock: 0 }),
+      Order.find({}).select(["total" , "discount","subtotal" , "tax" , "shippingCharges"]),
     ]);
 
     // order fulfillment
@@ -226,9 +228,8 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       shipped: shippedOrder,
       delivered: deliveredOrder,
     };
-    
 
-    //categories count 
+    //categories count
     const categoriesCountPromise = categories.map((category) =>
       Product.countDocuments({ category })
     );
@@ -240,17 +241,33 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       });
     });
 
-
     // stock availability
     const stockAvailability = {
       inStock: productsCount - outOfStock,
       outOfStock,
-    }; 
+    };
+
+   // revenueDistribution
+   const grossIncome = allOrders.reduce((prev,order) => prev + (order.total || 0),0)
+   const discount = allOrders.reduce((prev, order) => prev + (order.discount || 0),0);
+   const productionCost = allOrders.reduce((prev, order) => prev + (order.shippingCharges || 0),0);
+   const burnt = allOrders.reduce((prev, order) => prev + (order.tax || 0),0);
+   const marketingCost = Math.round((30/100) * grossIncome);
+   const netMargin = grossIncome - discount - productionCost - burnt - marketingCost;
+
+    const revenueDistribution = {
+      netMargin,
+      discount,
+      productionCost,
+      burnt,
+      marketingCost
+    }
 
     charts = {
       orderFulfillment,
       categoryCount,
       stockAvailability,
+      revenueDistribution
     };
 
     myCache.set("admin-pie-charts", JSON.stringify(charts));
