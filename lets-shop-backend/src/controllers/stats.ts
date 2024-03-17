@@ -144,11 +144,20 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
         orderMonthlyRevenue[6 - monthDiff - 1] += order.total;
       }
     });
-   const categoriesCountPromise =  categories.map((category) => Product.countDocuments({ category }));
-   const categoriesCount = await Promise.all(categoriesCountPromise);
+    const categoriesCountPromise = categories.map((category) =>
+      Product.countDocuments({ category })
+    );
+    const categoriesCount = await Promise.all(categoriesCountPromise);
+
+    const categoryCount : Record<string,number>[] = [];
+    categories.forEach((category, i) => {
+      categoryCount.push({
+        [category] : Math.round((categoriesCount[i]/productsCount)*100) 
+      });
+    });
 
     stats = {
-      categoriesCount,
+      categoryCount,
       changePercent,
       count,
       chart: {
