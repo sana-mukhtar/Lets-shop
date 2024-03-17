@@ -191,24 +191,41 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
 
     myCache.set("admin-stats" , JSON.stringify(stats))
   }
-
   return res.status(200).json({
     success: true,
     stats,
   });
 });
 
+
+//get pie charts
 export const getPieCharts = TryCatch(async (req , res , next) => {
   let charts;
 
   if(myCache.has("admin-pie-charts")) charts = JSON.parse(myCache.get("admin-pie-charts") as string)
 
   else{
-    const [processingOrder , shippedOrder , deliveredOrder] = await Promise.all([
+    const [processingOrder, shippedOrder, deliveredOrder , categories ,productsCount] = await Promise.all([
       Order.countDocuments({ status: "Processing" }),
       Order.countDocuments({ status: "Shipped" }),
       Order.countDocuments({ status: "Delivered" }),
+      Product.distinct("category"),
+      Product.countDocuments()
     ]);
+
+//categories count (
+    const categoriesCountPromise = categories.map((category) =>
+      Product.countDocuments({ category })
+    );
+    const categoriesCount = await Promise.all(categoriesCountPromise);
+    const categoryCount: Record<string, number>[] = [];
+    categories.forEach((category, i) => {
+      categoryCount.push({
+        [category]: Math.round((categoriesCount[i] / productsCount) * 100),
+      });
+    });
+    // )
+    
     const orderFulfillment = {
       Processing : processingOrder,
       shipped : shippedOrder,
@@ -217,6 +234,7 @@ export const getPieCharts = TryCatch(async (req , res , next) => {
  
     charts = {
       orderFulfillment,
+      categoryCount
     }
 
     myCache.set("admin-pie-charts" , JSON.stringify(charts));
