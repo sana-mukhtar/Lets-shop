@@ -5,6 +5,7 @@ import { Product } from "../models/products.js";
 import { User } from "../models/user.js";
 import { calculatePercentage } from "../utils/features.js";
 
+//admin dashboard stats
 export const getDashboardStats = TryCatch(async (req, res, next) => {
   let stats = {};
 
