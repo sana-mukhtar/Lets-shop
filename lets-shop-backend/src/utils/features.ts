@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
 import { invalidateCacheProps, orderItemType } from "../types/types.js";
 import { myCache } from "../app.js";
 import { Product } from "../models/products.js";
@@ -60,4 +60,25 @@ export const calculatePercentage = (thisMonth:number,lastMonth:number)=>{
   if(lastMonth === 0) return thisMonth*100;
   const percent = (thisMonth / lastMonth)*100;
   return Number(percent.toFixed(0));
+}
+
+
+interface myDocument extends Document {
+  createdAt : Date,
+}
+export type func1props = { length: number; docArr: myDocument[] };
+
+export const getChartData = ({length , docArr}:func1props)=>{
+  const today = new Date();
+   const data:number[] = new Array(length).fill(0);
+
+   docArr.forEach((i) => {
+     const creationDate = i.createdAt;
+     const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
+     if (monthDiff < length) {
+       data[length - monthDiff - 1] += 1;
+     }
+   });
+
+   return data;
 }

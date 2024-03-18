@@ -3,7 +3,7 @@ import { TryCatch } from "../middlewares/error.js";
 import { Order } from "../models/order.js";
 import { Product } from "../models/products.js";
 import { User } from "../models/user.js";
-import { calculatePercentage } from "../utils/features.js";
+import { calculatePercentage, getChartData } from "../utils/features.js";
 
 //admin dashboard stats
 export const getDashboardStats = TryCatch(async (req, res, next) => {
@@ -343,7 +343,6 @@ export const getBarCharts = TryCatch(async (req, res, next) => {
       },
     });
 
-
     const lastTwelveMonthOrderPromise = Order.find({
       createdAt: {
         $gte: twelveMonthsago,
@@ -351,18 +350,21 @@ export const getBarCharts = TryCatch(async (req, res, next) => {
       },
     });
 
-    const [
-      Product,
-      Users,
-      
-      Order,
-    ] = await Promise.all([
+    const [products, users, orders] = await Promise.all([
       lastSixMonthProductPromise,
       lastSixMonthUserPromise,
       lastTwelveMonthOrderPromise,
     ]);
 
-    charts = {};
+    const productsCount = getChartData({ length: 6, docArr: products });
+    const usersCount = getChartData({ length: 6, docArr: users });
+    const ordersCount = getChartData({ length: 6, docArr: orders });
+
+    charts = {
+      users:usersCount,
+      products: productsCount,
+      orders:ordersCount
+    };
     myCache.set(key, JSON.stringify(charts));
   }
 
