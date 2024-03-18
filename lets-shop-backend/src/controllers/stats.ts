@@ -147,7 +147,7 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
 
     lastSixMonthOrder.forEach((order) => {
       const creationDate = order.createdAt;
-      const monthDiff = ((today.getMonth() - creationDate.getMonth()) +12 )%12;
+      const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
       if (monthDiff < 6) {
         orderMonthCounts[6 - monthDiff - 1] += 1;
         orderMonthlyRevenue[6 - monthDiff - 1] += order.total;
@@ -215,7 +215,7 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       allOrders,
       userDob,
       adminsCount,
-      usersCount
+      usersCount,
     ] = await Promise.all([
       Order.countDocuments({ status: "Processing" }),
       Order.countDocuments({ status: "Shipped" }),
@@ -260,21 +260,31 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       outOfStock,
     };
 
-   // revenueDistribution
-   const grossIncome = allOrders.reduce((prev,order) => prev + (order.total || 0),0)
-   const discount = allOrders.reduce((prev, order) => prev + (order.discount || 0),0);
-   const productionCost = allOrders.reduce((prev, order) => prev + (order.shippingCharges || 0),0);
-   const burnt = allOrders.reduce((prev, order) => prev + (order.tax || 0),0);
-   const marketingCost = Math.round((30/100) * grossIncome);
-   const netMargin = grossIncome - discount - productionCost - burnt - marketingCost;
+    // revenueDistribution
+    const grossIncome = allOrders.reduce(
+      (prev, order) => prev + (order.total || 0),
+      0
+    );
+    const discount = allOrders.reduce(
+      (prev, order) => prev + (order.discount || 0),
+      0
+    );
+    const productionCost = allOrders.reduce(
+      (prev, order) => prev + (order.shippingCharges || 0),
+      0
+    );
+    const burnt = allOrders.reduce((prev, order) => prev + (order.tax || 0), 0);
+    const marketingCost = Math.round((30 / 100) * grossIncome);
+    const netMargin =
+      grossIncome - discount - productionCost - burnt - marketingCost;
 
     const revenueDistribution = {
       netMargin,
       discount,
       productionCost,
       burnt,
-      marketingCost
-    }
+      marketingCost,
+    };
 
     // usersAgeGroup
     const usersAgeGroup = {
@@ -285,9 +295,9 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
 
     //admin user count
     const adminCustomer = {
-      admins : adminsCount,
-      customers : usersCount
-    }
+      admins: adminsCount,
+      customers: usersCount,
+    };
 
     charts = {
       orderFulfillment,
@@ -295,7 +305,7 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
       stockAvailability,
       revenueDistribution,
       usersAgeGroup,
-      adminCustomer
+      adminCustomer,
     };
 
     myCache.set("admin-pie-charts", JSON.stringify(charts));
@@ -306,6 +316,85 @@ export const getPieCharts = TryCatch(async (req, res, next) => {
   });
 });
 
-export const getBarCharts = TryCatch(async () => {});
+//get bar charts
+export const getBarCharts = TryCatch(async (req, res, next) => {
+  let charts;
+  const key = "admin-bar-charts";
+  if (myCache.has(key)) charts = JSON.parse(myCache.get(key) as string);
+  else {
+    const today = new Date();
+    const sixMonthsago = new Date();
+    sixMonthsago.setMonth(sixMonthsago.getMonth() - 6);
+
+    const twelveMonthsago = new Date();
+    twelveMonthsago.setMonth(twelveMonthsago.getMonth() - 12);
+
+    const lastSixMonthProductPromise = Product.find({
+      createdAt: {
+        $gte: sixMonthsago,
+        $lte: today,
+      },
+    });
+
+    const lastSixMonthUserPromise = User.find({
+      createdAt: {
+        $gte: sixMonthsago,
+        $lte: today,
+      },
+    });
+
+    const lastSixMonthOrderPromise = Order.find({
+      createdAt: {
+        $gte: sixMonthsago,
+        $lte: today,
+      },
+    });
+
+    const lastTwelveMonthProductPromise = Product.find({
+      createdAt: {
+        $gte: twelveMonthsago,
+        $lte: today,
+      },
+    });
+
+    const lastTwelveMonthUserPromise = User.find({
+      createdAt: {
+        $gte: twelveMonthsago,
+        $lte: today,
+      },
+    });
+
+    const lastTwelveMonthOrderPromise = Order.find({
+      createdAt: {
+        $gte: twelveMonthsago,
+        $lte: today,
+      },
+    });
+
+    const [
+      lastSixMonthProduct,
+      lastMonthUsers,
+      lastSixMonthOrder,
+      lastTwelveMonthProduct,
+      lastTwelveMonthUser,
+      lastTwelveMonthOrder,
+    ] = await Promise.all([
+      lastSixMonthProductPromise,
+      lastSixMonthUserPromise,
+      lastSixMonthOrderPromise,
+      lastTwelveMonthProductPromise,
+      lastTwelveMonthUserPromise,
+      lastTwelveMonthOrderPromise,
+    ]);
+
+    charts = {};
+    myCache.set(key, JSON.stringify(charts));
+  }
+
+  return res.status(200).json({
+    success: true,
+    charts,
+  });
+});
 
 export const getLineCharts = TryCatch(async () => {});
