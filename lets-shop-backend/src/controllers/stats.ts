@@ -343,26 +343,6 @@ export const getBarCharts = TryCatch(async (req, res, next) => {
       },
     });
 
-    const lastSixMonthOrderPromise = Order.find({
-      createdAt: {
-        $gte: sixMonthsago,
-        $lte: today,
-      },
-    });
-
-    const lastTwelveMonthProductPromise = Product.find({
-      createdAt: {
-        $gte: twelveMonthsago,
-        $lte: today,
-      },
-    });
-
-    const lastTwelveMonthUserPromise = User.find({
-      createdAt: {
-        $gte: twelveMonthsago,
-        $lte: today,
-      },
-    });
 
     const lastTwelveMonthOrderPromise = Order.find({
       createdAt: {
@@ -372,18 +352,13 @@ export const getBarCharts = TryCatch(async (req, res, next) => {
     });
 
     const [
-      lastSixMonthProduct,
-      lastMonthUsers,
-      lastSixMonthOrder,
-      lastTwelveMonthProduct,
-      lastTwelveMonthUser,
-      lastTwelveMonthOrder,
+      Product,
+      Users,
+      
+      Order,
     ] = await Promise.all([
       lastSixMonthProductPromise,
       lastSixMonthUserPromise,
-      lastSixMonthOrderPromise,
-      lastTwelveMonthProductPromise,
-      lastTwelveMonthUserPromise,
       lastTwelveMonthOrderPromise,
     ]);
 
