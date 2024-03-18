@@ -334,21 +334,21 @@ export const getBarCharts = TryCatch(async (req, res, next) => {
         $gte: sixMonthsago,
         $lte: today,
       },
-    });
+    }).select("createdAt");
 
     const lastSixMonthUserPromise = User.find({
       createdAt: {
         $gte: sixMonthsago,
         $lte: today,
       },
-    });
+    }).select("createdAt");
 
     const lastTwelveMonthOrderPromise = Order.find({
       createdAt: {
         $gte: twelveMonthsago,
         $lte: today,
       },
-    });
+    }).select("createdAt");
 
     const [products, users, orders] = await Promise.all([
       lastSixMonthProductPromise,
@@ -358,7 +358,7 @@ export const getBarCharts = TryCatch(async (req, res, next) => {
 
     const productsCount = getChartData({ length: 6, docArr: products });
     const usersCount = getChartData({ length: 6, docArr: users });
-    const ordersCount = getChartData({ length: 6, docArr: orders });
+    const ordersCount = getChartData({ length: 12, docArr: orders });
 
     charts = {
       users:usersCount,
@@ -374,4 +374,8 @@ export const getBarCharts = TryCatch(async (req, res, next) => {
   });
 });
 
-export const getLineCharts = TryCatch(async () => {});
+
+//line charts api
+export const getLineCharts = TryCatch(async () => {
+
+});
