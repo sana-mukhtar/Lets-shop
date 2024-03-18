@@ -361,9 +361,9 @@ export const getBarCharts = TryCatch(async (req, res, next) => {
     const ordersCount = getChartData({ length: 12, docArr: orders });
 
     charts = {
-      users:usersCount,
+      users: usersCount,
       products: productsCount,
-      orders:ordersCount
+      orders: ordersCount,
     };
     myCache.set(key, JSON.stringify(charts));
   }
@@ -374,8 +374,61 @@ export const getBarCharts = TryCatch(async (req, res, next) => {
   });
 });
 
-
 //line charts api
-export const getLineCharts = TryCatch(async () => {
+export const getLineCharts = TryCatch(async (req, res, next) => {
+  let charts;
+  const key = "admin-line-charts";
+  if (myCache.has(key)) charts = JSON.parse(myCache.get(key) as string);
+  else {
+    const today = new Date();
+    const twelveMonthsago = new Date();
+    twelveMonthsago.setMonth(twelveMonthsago.getMonth() - 12);
 
+    const lastTwelveMonthProductsPromise = Product.find({
+      createdAt: {
+        $gte: twelveMonthsago,
+        $lte: today,
+      },
+    }).select("createdAt");
+
+    const lastTwelveMonthUsersPromise = User.find({
+      createdAt: {
+        $gte: twelveMonthsago,
+        $lte: today,
+      },
+    }).select("createdAt");
+
+    const lastTwelveMonthOrdersPromise = Order.find({
+      createdAt: {
+        $gte: twelveMonthsago,
+        $lte: today,
+      },
+    }).select(["createdAt", "discount", "total"]);
+
+    const [products, users, orders] = await Promise.all([
+      lastTwelveMonthProductsPromise,
+      lastTwelveMonthUsersPromise,
+      lastTwelveMonthOrdersPromise,
+    ]);
+
+    const productsCount = getChartData({ length: 12, docArr: products });
+    const usersCount = getChartData({ length: 12, docArr: users });
+    const discount = getChartData({
+      length: 12,
+      docArr: orders,
+      property: "discount",
+    });
+
+    charts = {
+      users: usersCount,
+      products: productsCount,
+      discount,
+    };
+    myCache.set(key, JSON.stringify(charts));
+  }
+
+  return res.status(200).json({
+    success: true,
+    charts,
+  });
 });
