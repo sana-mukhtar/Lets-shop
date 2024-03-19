@@ -5,8 +5,8 @@ type productsProps = {
   photo: string;
   name: string;
   price: number;
-  productId: string;
-  stock: number;
+  productId?: string;
+  stock?: number;
   handler: () => void;
 };
 //const server = "shb";
@@ -15,8 +15,8 @@ const ProductCard = ({
   photo,
   name,
   price,
-  productId,
-  stock,
+  // productId,
+  // stock,
   handler,
 }: productsProps) => {
   return (
