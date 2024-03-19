@@ -9,7 +9,7 @@ import Stripe from "stripe";
 config({
   path: "./.env",
 });
-// const port = process.env.PORT || 3000;
+//const port = process.env.PORT || 3000;
 const port = 3000;
 // const mongoUri = process.env.MONGO_URI || "";
 
@@ -36,8 +36,6 @@ import orderRoutes from "./routes/order.js";
 import paymentRoutes from "./routes/payment.js";
 import statsRoutes from "./routes/stats.js";
 
-
-import { Error } from "mongoose";
 import { errorMiddleWare } from "./middlewares/error.js";
 
 app.use("/api/v1/user", userRoutes);
