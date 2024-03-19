@@ -2,6 +2,19 @@ import { Request } from "express";
 import { TryCatch } from "../middlewares/error.js";
 import { Coupon } from "../models/coupon.js";
 import ErrorHandler from "../utils/utility-class.js";
+import { stripe } from "../app.js";
+
+export const createPaymentIntent = TryCatch(async (req: Request, res, next) => {
+  const { amount } = req.body;
+  if (!amount) return next(new ErrorHandler("Please Enter Amount", 400));
+
+  const paymentIntent = await stripe.paymentIntents.create({amount:Number(amount)*100 , currency:"inr"})
+
+  return res.status(201).json({
+    success: true,
+    clientSecret:paymentIntent.client_secret,
+  });
+});
 
 export const newCoupon = TryCatch(async (req: Request, res, next) => {
   const { coupon, amount } = req.body;
@@ -17,13 +30,12 @@ export const newCoupon = TryCatch(async (req: Request, res, next) => {
 
 export const applyDiscount = TryCatch(async (req: Request, res, next) => {
   const { coupon } = req.query;
-  const discount = await Coupon.findOne({code:coupon});
-  if (!discount)
-    return next(new ErrorHandler("Invalid Coupon Code", 400));
+  const discount = await Coupon.findOne({ code: coupon });
+  if (!discount) return next(new ErrorHandler("Invalid Coupon Code", 400));
 
   return res.status(201).json({
     success: true,
-    discount:discount.amount,
+    discount: discount.amount,
   });
 });
 
@@ -36,14 +48,12 @@ export const allCoupons = TryCatch(async (req: Request, res, next) => {
 });
 
 export const deleteCoupon = TryCatch(async (req: Request, res, next) => {
-  const {id} = req.params;
+  const { id } = req.params;
   const coupon = await Coupon.findById(id);
-  if(!coupon) return next(new ErrorHandler("Invalid Id" , 404));
+  if (!coupon) return next(new ErrorHandler("Invalid Id", 404));
   coupon.deleteOne();
   return res.status(201).json({
     success: true,
-    message:`Coupon ${coupon.code} Deleted Successfully`,
+    message: `Coupon ${coupon.code} Deleted Successfully`,
   });
 });
-
-

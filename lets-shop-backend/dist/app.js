@@ -3,13 +3,16 @@ import { connectDB } from "./utils/features.js";
 import NodeCache from "node-cache";
 import { config } from "dotenv";
 import morgan from "morgan";
+import Stripe from "stripe";
 config({
     path: "./.env",
 });
 // const port = process.env.PORT || 3000;
 const port = 3000;
 // const mongoUri = process.env.MONGO_URI || "";
+const Stripe_key = process.env.STRIPE_KEY || "";
 connectDB();
+export const stripe = new Stripe(Stripe_key);
 export const myCache = new NodeCache();
 const app = express();
 app.use(express.json()); //middleware=app.use
