@@ -66,7 +66,7 @@ interface myDocument extends Document {
   discount?: number;
   total?: number;
 }
-type func1props = { length: number; docArr: myDocument[]; property?: string };
+type func1props = { length: number; docArr: myDocument[]; property?: "discount" | "total" };
 
 export const getChartData = ({ length, docArr, property }: func1props) => {
   const today = new Date();
@@ -76,7 +76,7 @@ export const getChartData = ({ length, docArr, property }: func1props) => {
     const creationDate = i.createdAt;
     const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
     if (monthDiff < length) {
-      if(property) data[length - monthDiff - 1] += i.discount!;
+      if(property) data[length - monthDiff - 1] += i[property]!;
       else{
         data[length - monthDiff - 1] += 1;
       }
