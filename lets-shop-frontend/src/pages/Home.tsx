@@ -11,7 +11,7 @@ const Home = () => {
         <>LATEST PRODUCTS </>
         <>
           <Link to={"/search"} className="text-[1rem] hover:text-blue-700 hover:underline hover:text-lg">
-            More>>{" "}
+            More{" "}
           </Link>{" "}
         </>
       </h1>

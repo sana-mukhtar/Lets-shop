@@ -1,5 +1,19 @@
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import toast from "react-hot-toast";
+import { auth } from "../firebase";
 
 export default function Login() {
+  const loginHandler = async()=>{
+    try {
+      const provider = new GoogleAuthProvider()
+      const {user} = await signInWithPopup(auth,provider);
+      console.log(user);
+      
+    } catch (error) {
+      toast.error("Sign In Failed");
+      
+    }
+  };
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center   lg:px-0 bg-white h-[calc(100vh-5rem)]">
@@ -74,6 +88,7 @@ export default function Login() {
             <a
               href="#"
               className="font-semibold leading-6 text-blue-800 hover:text-blue-500"
+              onClick={loginHandler}
             >
               Sign in with Google
             </a>

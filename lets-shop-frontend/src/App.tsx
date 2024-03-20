@@ -2,6 +2,8 @@ import { BrowserRouter as Router , Routes , Route } from "react-router-dom"
 import { Suspense, lazy } from "react";
 import Loader from "./components/Loader";
 import Shipping from "./pages/Shipping";
+import { Toaster } from "react-hot-toast";
+
 const Orders = lazy(()=>import("./pages/Orders"));
 const Home = lazy(()=>import("./pages/Home"))
 const Cart = lazy(() => import("./pages/Cart"));
@@ -85,6 +87,7 @@ const App = () => {
           ;
         </Routes>
       </Suspense>
+      <Toaster position="bottom-center" />
     </Router>
   );
 }
