@@ -1,17 +1,27 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import toast from "react-hot-toast";
 import { auth } from "../firebase";
+import { useLoginMutation } from "../redux/api/userAPI";
 
 export default function Login() {
-  const loginHandler = async()=>{
+  const [login] = useLoginMutation();
+  const loginHandler = async () => {
     try {
-      const provider = new GoogleAuthProvider()
-      const {user} = await signInWithPopup(auth,provider);
+      const provider = new GoogleAuthProvider();
+      const { user } = await signInWithPopup(auth, provider);
+
+      await login({
+        name: "Sanaaa",
+        photo: "sabaa",
+        email: "sgayu",
+        gender: "female",
+        role: "user",
+        dob: "n",
+        _id: "sgghgklnbbvmmy67",
+      });
       console.log(user);
-      
     } catch (error) {
       toast.error("Sign In Failed");
-      
     }
   };
   return (
@@ -84,7 +94,7 @@ export default function Login() {
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Already signed in once? 
+            Already signed in once?
             <a
               href="#"
               className="font-semibold leading-6 text-blue-800 hover:text-blue-500"
