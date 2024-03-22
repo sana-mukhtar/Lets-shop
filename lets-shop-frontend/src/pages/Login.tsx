@@ -10,7 +10,7 @@ export default function Login() {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
 
-      await login({
+      const res = await login({
         name: "Sanaaa",
         photo: "sabaa",
         email: "sgayu",
