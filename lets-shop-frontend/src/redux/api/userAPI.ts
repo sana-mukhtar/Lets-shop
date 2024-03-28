@@ -17,3 +17,5 @@ export const userAPI = createApi({
     })})
   })
 })
+
+export const {useLoginMutation} = userAPI;
