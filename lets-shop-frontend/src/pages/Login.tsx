@@ -40,6 +40,7 @@ export default function Login() {
                 htmlFor="email"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
+                {" "}
                 Email address
               </label>
               <div className="mt-2">
