@@ -4,7 +4,8 @@ import { userAPI } from "./api/userAPI";
 export const server = import.meta.env.VITE_SERVER;
 
 export const store = configureStore({
-  reducer:{
-    userApi: userAPI.reducer,
+  reducer: {
+    userAPI: userAPI.reducer,
   },
-})
+  middleware: (mid) => [...mid(), userAPI.middleware],
+});

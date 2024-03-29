@@ -2,6 +2,8 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import toast from "react-hot-toast";
 import { auth } from "../firebase";
 import { useLoginMutation } from "../redux/api/userAPI";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
+import { MessageResponse } from "../types/api-types";
 
 export default function Login() {
   const [login] = useLoginMutation();
@@ -20,6 +22,13 @@ export default function Login() {
         _id: "sgghgklnbbvmmy67",
       });
       console.log(user);
+      if ("data" in res) {
+        const a = 2;
+        console.log(a);
+      } else {
+        const error = res.error as FetchBaseQueryError;
+        const message = error.data as MessageResponse;
+      }
     } catch (error) {
       toast.error("Sign In Failed");
     }
