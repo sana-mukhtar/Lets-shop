@@ -1,11 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userAPI } from "./api/userAPI";
 
-export const server = import.meta.env.VITE_SERVER;
+export const server = http://localhost:3000;
 
 export const store = configureStore({
   reducer: {
     userAPI: userAPI.reducer,
   },
-  middleware: (mid) => [...mid(), userAPI.middleware],
+  middleware:(getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(userAPI.middleware),
 });
+
+

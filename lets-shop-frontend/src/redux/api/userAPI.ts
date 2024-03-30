@@ -13,7 +13,6 @@ export const userAPI = createApi({
       url:"new",
       method:"POST",
       body:user,
-
     })})
   })
 })
