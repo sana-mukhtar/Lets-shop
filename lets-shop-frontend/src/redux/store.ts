@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { userAPI } from "./api/userAPI";
+import { setupListeners } from "@reduxjs/toolkit/query";
 
-export const server = http://localhost:3000;
+export const server = import.meta.env.VITE_SERVER;
 
 export const store = configureStore({
   reducer: {
-    userAPI: userAPI.reducer,
+    [userAPI.reducerPath]: userAPI.reducer,
   },
-  middleware:(getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userAPI.middleware),
+  middleware: (mid) => [...mid(), userAPI.middleware],
 });
 
-
+setupListeners(store.dispatch);
