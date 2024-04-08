@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { userAPI } from "./api/userAPI";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
-export const server = import.meta.env.VITE_SERVER;
+// export const server = import.meta.env.VITE_SERVER;
 
 export const store = configureStore({
   reducer: {

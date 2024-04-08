@@ -56,13 +56,13 @@ export default function Login() {
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
                   {" "}
-                  Email address
+                  gender
                 </label>
                 <div className="mt-2">
                   <input
                     id="email"
-                    name="email"
-                    placeholder="email"
+                    name="gender"
+                    placeholder="gender"
                     type="email"
                     autoComplete="email"
                     required
@@ -77,16 +77,9 @@ export default function Login() {
                     htmlFor="password"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Password
+                    Date
                   </label>
-                  <div className="text-sm">
-                    <a
-                      href="#"
-                      className="font-semibold text-blue-800 hover:text-blue-500"
-                    >
-                      Forgot password?
-                    </a>
-                  </div>
+                
                 </div>
                 <div className="mt-2">
                   <input
@@ -94,6 +87,7 @@ export default function Login() {
                     name="password"
                     type="password"
                     autoComplete="current-password"
+                    placeholder="date of birth"
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-700 sm:text-sm sm:leading-6"
                   />
