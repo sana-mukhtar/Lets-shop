@@ -4,10 +4,11 @@ import NodeCache from "node-cache";
 import { config } from "dotenv";
 import morgan from "morgan";
 import Stripe from "stripe";
+import cors from "cors";
 config({
     path: "./.env",
 });
-//const port = process.env.PORT || 3000;
+//const port = process.env.PORT || 4000;
 const port = 4000;
 // const mongoUri = process.env.MONGO_URI || "";
 const Stripe_key = process.env.STRIPE_KEY || "";
@@ -17,6 +18,9 @@ export const myCache = new NodeCache();
 const app = express();
 app.use(express.json()); //middleware=app.use
 app.use(morgan("dev"));
+app.use(cors({
+    origin: ""
+}));
 app.get("/", (req, res) => {
     res.send("API working with /api/v1");
 });
