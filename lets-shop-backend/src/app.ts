@@ -26,7 +26,7 @@ const app = express();
 app.use(express.json()); //middleware=app.use
 app.use(morgan("dev"));
 app.use(cors({
-  origin:""
+
 }))
 
 app.get("/", (req, res) => {

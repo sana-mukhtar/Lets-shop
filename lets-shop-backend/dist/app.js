@@ -18,9 +18,7 @@ export const myCache = new NodeCache();
 const app = express();
 app.use(express.json()); //middleware=app.use
 app.use(morgan("dev"));
-app.use(cors({
-    origin: ""
-}));
+app.use(cors({}));
 app.get("/", (req, res) => {
     res.send("API working with /api/v1");
 });
