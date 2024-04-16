@@ -1,11 +1,10 @@
 import express from "express";
 import { connectDB } from "./utils/features.js";
 import NodeCache from "node-cache";
-import  {config}  from "dotenv";
+import { config } from "dotenv";
 import morgan from "morgan";
 import Stripe from "stripe";
 import cors from "cors";
-
 
 config({
   path: "./.env",
@@ -14,8 +13,7 @@ config({
 const port = 4000;
 // const mongoUri = process.env.MONGO_URI || "";
 
- const Stripe_key = process.env.STRIPE_KEY || "";
-
+const Stripe_key = process.env.STRIPE_KEY || "";
 
 connectDB();
 
@@ -25,9 +23,7 @@ const app = express();
 
 app.use(express.json()); //middleware=app.use
 app.use(morgan("dev"));
-app.use(cors({
-
-}))
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("API working with /api/v1");
@@ -47,8 +43,6 @@ app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/order", orderRoutes);
 app.use("/api/v1/payment", paymentRoutes);
 app.use("/api/v1/dashboard", statsRoutes);
-
-
 
 app.use("/uploads", express.static("uploads"));
 app.use(errorMiddleWare);
