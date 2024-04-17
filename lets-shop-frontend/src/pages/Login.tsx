@@ -16,13 +16,13 @@ const Login = () => {
       const provider = new GoogleAuthProvider();
       const user = await signInWithPopup(auth, provider);
       const res = await login({
-        name: "Sana",
-        email: "skm",
-        photo: "hk",
-        gender: "female",
+        name: "Sanaaa",
+        email: "san1234@gmail.com",
+        photo: "sk",
+        gender:"female",
         role: "user",
         dob: date,
-        _id: "hgh",
+        _id: "j",
       });
 
       if ("data" in res) {

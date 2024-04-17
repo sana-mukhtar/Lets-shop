@@ -15,7 +15,7 @@ app.post("/new", newUser);
 //  /api/v1/user/all
 app.get("/all", adminOnly ,  getAllUsers);
 
-//  /api/v1/user/dynamicid
+//  /api/v1/user/dynamic-id
 app.get("/:id", getUser);
 
 //delete user route
