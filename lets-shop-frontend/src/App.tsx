@@ -1,18 +1,19 @@
-import { BrowserRouter as Router , Routes , Route } from "react-router-dom"
-import { Suspense, lazy } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Suspense, lazy, useEffect } from "react";
 import Loader from "./components/Loader";
 import Shipping from "./pages/Shipping";
 import { Toaster } from "react-hot-toast";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 
-const Orders = lazy(()=>import("./pages/Orders"));
-const Home = lazy(()=>import("./pages/Home"))
+const Orders = lazy(() => import("./pages/Orders"));
+const Home = lazy(() => import("./pages/Home"));
 const Cart = lazy(() => import("./pages/Cart"));
 const Search = lazy(() => import("./pages/Search"));
 const Header = lazy(() => import("./components/Header"));
 const Login = lazy(() => import("./pages/Login"));
 const OrdersDetails = lazy(() => import("./pages/OrdersDetails"));
-const PaymentPage = lazy(()=> import("./pages/PaymentPage"));
-
+const PaymentPage = lazy(() => import("./pages/PaymentPage"));
 
 //admin routes
 const Dashboard = lazy(() => import("./pages/admin/dashboard"));
@@ -33,9 +34,16 @@ const TransactionManagement = lazy(
   () => import("./pages/admin/management/transactionmanagement")
 );
 
-
-
 const App = () => {
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("Logged In");
+      } else {
+        console.log("Not Logged In");
+      }
+    });
+  });
   return (
     <Router>
       <Header />
@@ -90,6 +98,6 @@ const App = () => {
       <Toaster position="bottom-center" />
     </Router>
   );
-}
+};
 
-export default App
+export default App;
