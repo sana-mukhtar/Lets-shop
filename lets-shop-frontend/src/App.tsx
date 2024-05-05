@@ -5,6 +5,9 @@ import Shipping from "./pages/Shipping";
 import { Toaster } from "react-hot-toast";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import { useDispatch } from "react-redux";
+import { userExist, userNotExist } from "./redux/reducer/userReducer";
+import { getUser } from "./redux/api/userAPI";
 
 const Orders = lazy(() => import("./pages/Orders"));
 const Home = lazy(() => import("./pages/Home"));
@@ -35,12 +38,16 @@ const TransactionManagement = lazy(
 );
 
 const App = () => {
+  const dispatch = useDispatch();
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async(user) => {
       if (user) {
+        const data = await getUser(user.uid)
         console.log("Logged In");
+        dispatch(userExist(data.user))
       } else {
         console.log("Not Logged In");
+        dispatch(userNotExist())
       }
     });
   });
