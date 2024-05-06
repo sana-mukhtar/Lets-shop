@@ -7,9 +7,15 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { User } from "../types/types";
 
-const user = { _id: "", role: "" };     //id:asdf role:admin
-const Header = () => {
+// const user = { _id: "", role: "" };     //id:asdf role:admin
+
+interface propTypes{
+  user: User|null
+}
+
+const Header = ({user}:propTypes) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <nav className="flex justify-end items-stretch gap-16 flex-row h-20 bg-[#fafcfa] p-5 ">

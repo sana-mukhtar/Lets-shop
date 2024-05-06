@@ -5,9 +5,10 @@ import Shipping from "./pages/Shipping";
 import { Toaster } from "react-hot-toast";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { userExist, userNotExist } from "./redux/reducer/userReducer";
 import { getUser } from "./redux/api/userAPI";
+import { userReducerInitialState } from "./types/reducer-types";
 
 const Orders = lazy(() => import("./pages/Orders"));
 const Home = lazy(() => import("./pages/Home"));
@@ -38,22 +39,25 @@ const TransactionManagement = lazy(
 );
 
 const App = () => {
+  const { user} = useSelector(
+    (state: { userReducer: userReducerInitialState }) => state.userReducer
+  );
   const dispatch = useDispatch();
   useEffect(() => {
-    onAuthStateChanged(auth, async(user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const data = await getUser(user.uid)
+        const data = await getUser(user.uid);
         console.log("Logged In");
-        dispatch(userExist(data.user))
+        dispatch(userExist(data.user));
       } else {
         console.log("Not Logged In");
-        dispatch(userNotExist())
+        dispatch(userNotExist());
       }
     });
   });
   return (
     <Router>
-      <Header />
+      <Header user={user} />
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Home />} />
