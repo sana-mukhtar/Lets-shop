@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { Suspense, lazy, useEffect } from "react";
 import Loader from "./components/Loader";
 import Shipping from "./pages/Shipping";
@@ -39,7 +40,7 @@ const TransactionManagement = lazy(
 );
 
 const App = () => {
-  const { user} = useSelector(
+  const { user } = useSelector(
     (state: { userReducer: userReducerInitialState }) => state.userReducer
   );
   const dispatch = useDispatch();
@@ -63,7 +64,14 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <ProtectedRoute isAuthenticated={user?false:true}>
+                <Login />
+              </ProtectedRoute>
+            }
+          />
           <Route>
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/orders" element={<Orders />} />
