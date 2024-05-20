@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 interface Props {
   children?: ReactElement;
@@ -10,11 +10,13 @@ interface Props {
 }
 export default function ProtectedRoute({
   children,
-  adminRoute,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isAdmin,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  adminRoute,
   isAuthenticated,
   redirect = "/",
 }: Props) {
   if (!isAuthenticated) <Navigate to={redirect} />;
-  return children;
+  return children ? children : <Outlet />;
 }

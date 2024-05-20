@@ -17,6 +17,9 @@ interface propTypes{
 
 const Header = ({user}:propTypes) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const logOutHandler=()=>{
+    
+  }
   return (
     <nav className="flex justify-end items-stretch gap-16 flex-row h-20 bg-[#fafcfa] p-5 ">
       <Link
