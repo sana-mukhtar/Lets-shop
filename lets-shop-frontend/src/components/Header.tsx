@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { User } from "../types/types";
+import toast from "react-hot-toast";
 
 // const user = { _id: "", role: "" };     //id:asdf role:admin
 
@@ -17,8 +18,14 @@ interface propTypes{
 
 const Header = ({user}:propTypes) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const logOutHandler=()=>{
-    
+    try {
+      toast.success("Logout succesfully");
+      
+    } catch (error) {
+      toast.error("logout failed");
+    }
   }
   return (
     <nav className="flex justify-end items-stretch gap-16 flex-row h-20 bg-[#fafcfa] p-5 ">
