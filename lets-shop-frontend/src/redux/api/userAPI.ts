@@ -5,9 +5,9 @@ import { User } from "../../types/types";
 import axios from "axios";
 
 export const userAPI = createApi({
-  reducerPath: "UserApi",
+  reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `http://localhost:3000/api/v1/user/`,
+    baseUrl: `http://localhost:4000/api/v1/user/`,
   }),
   endpoints: (builder) => ({
     login: builder.mutation<MessageResponse, User>({
@@ -24,7 +24,7 @@ export const getUser = async (id: string) => {
   // eslint-disable-next-line no-useless-catch
   try {
     const { data }: { data: UserResponse } = await axios.get(
-      `http://localhost:3000/api/v1/user/${id}`
+      `http://localhost:4000/api/v1/user/${id}`
     );
     return data;
   } catch (error) {
